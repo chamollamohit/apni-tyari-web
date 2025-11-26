@@ -4,10 +4,15 @@ import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-
+import { usePathname } from "next/navigation";
 export const Navbar = () => {
     const { data: session } = useSession();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const pathname = usePathname();
+
+    if (pathname?.startsWith("/admin")) {
+        return null;
+    }
 
     return (
         <div className="p-4 border-b h-16 flex items-center justify-between bg-white shadow-sm fixed top-0 w-full z-50">
