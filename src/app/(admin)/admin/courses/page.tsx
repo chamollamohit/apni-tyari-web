@@ -5,7 +5,7 @@ import { authOptions } from "@/auth";
 import { db } from "@/lib/db";
 
 import { Button } from "@/components/ui/button";
-import { CourseTable } from "@/components/admin-components/course-table";
+import { CourseTable } from "@/components/admin-components/course-components/course-table";
 
 export default async function CoursesPage() {
     const session = await getServerSession(authOptions);

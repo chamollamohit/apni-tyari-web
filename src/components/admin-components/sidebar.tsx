@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { LayoutDashboard, List, LogOut } from "lucide-react";
+import {
+    Clapperboard,
+    GraduationCap,
+    LayoutDashboard,
+    List,
+    LogOut,
+} from "lucide-react";
 import { SidebarItem } from "./sidebar-item";
 import { Button } from "@/components/ui/button"; // For the Exit button
 
@@ -16,20 +22,29 @@ const routes = [
         label: "Courses",
         href: "/admin/courses",
     },
+    {
+        icon: GraduationCap,
+        label: "Teachers",
+        href: "/admin/teachers",
+    },
+    {
+        icon: Clapperboard,
+        label: "Batch Operations",
+        href: "/admin/operations",
+    },
 ];
 
 export const Sidebar = () => {
     return (
-        <div className="h-full border-r bg-white shadow-sm flex flex-col overflow-y-auto">
-            {/* 1. Header / Logo */}
+        <div className="h-full border-r bg-white flex flex-col overflow-y-auto">
             <div className="p-6 h-[80px] flex items-center border-b">
                 <Link href="/">
-                    {/* Replace with your actual Logo Component later */}
                     <div className="flex items-center gap-x-2">
-                        <div className="h-8 w-8 rounded-md bg-blue-600 flex items-center justify-center">
+                        <div className="h-8 w-8 rounded-md bg-black flex items-center justify-center">
                             <span className="text-white font-bold">E</span>
                         </div>
-                        <h1 className="font-bold text-xl text-blue-600">
+
+                        <h1 className="font-bold text-xl text-black">
                             EdAdmin
                         </h1>
                     </div>

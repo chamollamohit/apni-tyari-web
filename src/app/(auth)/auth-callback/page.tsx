@@ -9,7 +9,7 @@ export default function AuthCallbackPage() {
     const searchParams = useSearchParams();
     const { data: session, status } = useSession();
 
-    // Check if there was a specific return URL (e.g., from a purchase attempt)
+    // Check if there was a specific return URL
     const returnTo = searchParams.get("callbackUrl");
 
     useEffect(() => {

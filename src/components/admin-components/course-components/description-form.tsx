@@ -1,7 +1,7 @@
 "use client";
 
 import * as z from "zod";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Pencil } from "lucide-react";
@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Textarea } from "@/components/ui/textarea"; // npx shadcn-ui@latest add textarea
+import { Textarea } from "@/components/ui/textarea";
 
 interface DescriptionFormProps {
     initialData: Course;
@@ -27,8 +27,8 @@ interface DescriptionFormProps {
 }
 
 const formSchema = z.object({
-    description: z.string().min(1, {
-        message: "Description is required",
+    description: z.string().min(5, {
+        message: "Description must be at least 5 characters long",
     }),
 });
 
@@ -53,18 +53,22 @@ export const DescriptionForm = ({
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             await axios.patch(`/api/courses/${courseId}`, values);
-            toast.success("Course description updated");
+            toast.success("Description updated");
             toggleEdit();
             router.refresh();
-        } catch {
-            toast.error("Something went wrong");
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.response?.data || "Something went wrong");
+            } else {
+                toast.error("Network error. Please check your connection");
+            }
         }
     };
 
     return (
         <div className="mt-6 border bg-slate-100 rounded-md p-4">
             <div className="font-medium flex items-center justify-between">
-                Course description
+                Course Description
                 <Button onClick={toggleEdit} variant="ghost">
                     {isEditing ? (
                         <>Cancel</>
@@ -76,16 +80,20 @@ export const DescriptionForm = ({
                     )}
                 </Button>
             </div>
+
+            {/* View Mode */}
             {!isEditing && (
                 <p
                     className={cn(
-                        "text-sm mt-2",
+                        "text-sm mt-2 whitespace-pre-wrap", // preserves line breaks
                         !initialData.description && "text-slate-500 italic"
                     )}
                 >
-                    {initialData.description || "No description"}
+                    {initialData.description || "No description set"}
                 </p>
             )}
+
+            {/* Edit Mode */}
             {isEditing && (
                 <Form {...form}>
                     <form
@@ -100,9 +108,9 @@ export const DescriptionForm = ({
                                     <FormControl>
                                         <Textarea
                                             disabled={isSubmitting}
-                                            placeholder="e.g. 'This course covers...'"
+                                            placeholder="e.g. 'This course covers the fundamentals of Physics...'"
                                             {...field}
-                                            className="bg-white"
+                                            className="bg-white min-h-[120px]" // taller box
                                         />
                                     </FormControl>
                                     <FormMessage />

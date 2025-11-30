@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/providers/auth-provider";
-import { Navbar } from "@/components/navbar";
+import { Navbar } from "@/components/user-components/navbar";
 import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
@@ -32,7 +32,7 @@ export default function RootLayout({
             >
                 <AuthProvider>
                     <Navbar />
-                    <main className="h-full">
+                    <main className=" pt-15 h-full">
                         <Toaster />
 
                         {children}

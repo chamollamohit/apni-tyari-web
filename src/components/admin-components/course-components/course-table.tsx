@@ -59,7 +59,7 @@ export const CourseTable = ({ courses }: CourseTableProps) => {
                             {/* 2. Price (Formatted) */}
                             <TableCell>
                                 {course.price
-                                    ? new Intl.NumberFormat("en-US", {
+                                    ? new Intl.NumberFormat("en-IN", {
                                           style: "currency",
                                           currency: "INR",
                                       }).format(course.price)

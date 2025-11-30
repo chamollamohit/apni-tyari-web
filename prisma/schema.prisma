@@ -7,10 +7,38 @@ generator client {
   provider = "prisma-client-js"
 }
 
+
 enum UserRole {
   ADMIN
   STUDENT
 }
+
+enum CouponType {
+  FIXED
+  PERCENTAGE
+}
+
+enum CourseLanguage {
+  ENGLISH
+  HINGLISH
+  HINDI
+}
+
+enum CourseCategory {
+  NEET
+  JEE
+  UPSC
+  FOUNDATION
+}
+
+enum CourseTarget {
+  CLASS_11
+  CLASS_12
+  DROPPER
+  FOUNDATION
+  OTHER
+}
+
 
 model User {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
@@ -18,13 +46,12 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  role          UserRole  @default(STUDENT) 
+  role          UserRole  @default(STUDENT)
 
   accounts      Account[]
-  
   purchases     Purchase[]
   userProgress  UserProgress[]
- 
+
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
@@ -49,39 +76,49 @@ model Account {
 }
 
 model Course {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId      String  
-  title       String
-  description String? 
-  imageUrl    String? 
-  price       Float?
-  isPublished Boolean @default(false)
+  id                  String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId              String
+  title               String
+  description         String?
 
-  categoryId  String?   @db.ObjectId
-  category    Category? @relation(fields: [categoryId], references: [id])
+  price               Float?
+  originalPrice       Float?
 
-  chapters    Chapter[] // A Course has many Chapters
-  purchases   Purchase[]
+  imageUrl            String?
+  promotionalVideoUrl String?
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  courseLanguage      CourseLanguage? @default(HINGLISH)
+  category            CourseCategory?
+  target              CourseTarget?
 
-  @@index([categoryId])
+  duration            String? 
+  validity            DateTime? 
+
+  isPublished         Boolean @default(false)
+
+  subjects    Subject[]   
+
+  purchases           Purchase[]
+
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
   @@fulltext([title])
 }
 
 
-
-
-model Chapter {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  position    Int
+model Subject {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String   // e.g. "Physics"
+  position    Int      // 1 for Physics, 2 for Chem...
   
-  courseId    String @db.ObjectId
-  course      Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId    String   @db.ObjectId
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
-  lessons     Lesson[] 
+  chapters    Chapter[] 
+  
+  teacherIds  String[]  @db.ObjectId
+  teachers    Teacher[] @relation(fields: [teacherIds], references: [id])
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -89,34 +126,79 @@ model Chapter {
   @@index([courseId])
 }
 
+model Teacher {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  subjectIds String[]  @db.ObjectId
+  subjects   Subject[] @relation(fields: [subjectIds], references: [id])
 
-model Lesson {
+  lessons    Lesson[]
+  name      String
+  subject   String
+  exp       String
+  imageUrl  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Chapter {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
   title       String
-  position    Int     
+  position    Int
   isPublished Boolean @default(false)
-  isFree      Boolean @default(false) 
 
+  subjectId    String  @db.ObjectId
+  subject      Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
 
-  videoUrl    String?  // YouTube Link
-  notesUrl    String?  // Drive Link
-  startDate   DateTime? // Class Schedule Date
-  
-  chapterId   String @db.ObjectId
-  chapter     Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  lessons     Lesson[]
 
-  userProgress UserProgress[] // Progress is tracked per Lesson, not Chapter
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([subjectId])
+}
+
+model Lesson {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  position    Int
+  isPublished Boolean  @default(false)
+  isFree      Boolean  @default(false)
+
+  videoUrl    String?
+  notesUrl    String?
+
+  date        DateTime
+
+  teacherId   String?   @db.ObjectId
+  teacher     Teacher?  @relation(fields: [teacherId], references: [id])
+
+  chapterId   String   @db.ObjectId
+  chapter     Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  userProgress UserProgress[]
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   @@index([chapterId])
+  @@index([teacherId])
 }
 
-model Category {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  name    String   @unique
-  courses Course[]
+model Coupon {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  code      String     @unique
+  discount  Float
+  type      CouponType @default(PERCENTAGE) 
+
+  isActive  Boolean    @default(true)
+  expiresAt DateTime?
+  maxUses   Int?
+  usedCount Int        @default(0)
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
 model UserProgress {
@@ -144,7 +226,7 @@ model Purchase {
   course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt()
+  updatedAt DateTime @updatedAt
 
   @@unique([userId, courseId])
 }

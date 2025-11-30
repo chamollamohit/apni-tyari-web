@@ -9,7 +9,6 @@ export default function LoginPage() {
     const callbackUrl = searchParams.get("callbackUrl") || "/auth-callback";
 
     const onLogin = () => {
-        // Redirect to our middleman page after Google is done
         signIn("google", { callbackUrl });
     };
 
