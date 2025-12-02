@@ -24,14 +24,6 @@ export async function POST(req: Request) {
             );
         }
 
-        // Getting Last Lesson Position
-        const lastLesson = await db.lesson.findFirst({
-            where: { chapterId },
-            orderBy: { position: "desc" },
-        });
-
-        const newPosition = lastLesson ? lastLesson.position + 1 : 1;
-
         // Adding Lesson entry in DB
         const lesson = await db.lesson.create({
             data: {
@@ -39,7 +31,6 @@ export async function POST(req: Request) {
                 chapterId,
                 teacherId,
                 date: new Date(date),
-                position: newPosition,
                 isPublished: true,
                 isFree: false,
             },

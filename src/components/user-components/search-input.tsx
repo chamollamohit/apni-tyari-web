@@ -1,6 +1,6 @@
 "use client";
 
-import qs from "query-string"; // npm install query-string
+import qs from "query-string";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
@@ -11,7 +11,6 @@ import { useDebounce } from "@/hooks/use-debounce";
 export const SearchInput = () => {
     const [searchValue, setSearchValue] = useState("");
     const debouncedValue = useDebounce(searchValue);
-    console.log(debouncedValue);
 
     const searchParams = useSearchParams();
     const router = useRouter();

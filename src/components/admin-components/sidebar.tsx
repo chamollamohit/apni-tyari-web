@@ -9,7 +9,8 @@ import {
     LogOut,
 } from "lucide-react";
 import { SidebarItem } from "./sidebar-item";
-import { Button } from "@/components/ui/button"; // For the Exit button
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 const routes = [
     {
@@ -40,13 +41,22 @@ export const Sidebar = () => {
             <div className="p-6 h-[80px] flex items-center border-b">
                 <Link href="/">
                     <div className="flex items-center gap-x-2">
-                        <div className="h-8 w-8 rounded-md bg-black flex items-center justify-center">
-                            <span className="text-white font-bold">E</span>
+                        <div className="hidden md:block relative h-20 w-45">
+                            <Image
+                                src="/logo.png"
+                                alt="Logo"
+                                fill
+                                className="object-contain"
+                            />
                         </div>
-
-                        <h1 className="font-bold text-xl text-black">
-                            EdAdmin
-                        </h1>
+                        <div className="md:hidden relative h-10 w-10">
+                            <Image
+                                src="/mobile-logo.png"
+                                alt="Logo"
+                                fill
+                                className="object-contain"
+                            />
+                        </div>
                     </div>
                 </Link>
             </div>
@@ -63,7 +73,7 @@ export const Sidebar = () => {
                 ))}
             </div>
 
-            {/* 3. Footer / Exit Button */}
+            {/* 3.  Exit Button */}
             <div className="mt-auto p-4 border-t">
                 <Link href="/">
                     <Button

@@ -11,7 +11,7 @@ import {
 import Link from "next/link";
 
 import { SubjectTitleForm } from "@/components/admin-components/course-components/subject-title-form";
-import { ChaptersForm } from "@/components/admin-components/course-components/chapters-form";
+// import { ChaptersForm } from "@/components/admin-components/course-components/chapters-form";
 import { SubjectTeachersForm } from "@/components/admin-components/course-components/subject-teachers-form";
 
 export default async function SubjectIdPage({
@@ -24,7 +24,7 @@ export default async function SubjectIdPage({
 
     if (session?.user?.role !== "ADMIN") return redirect("/");
 
-    // 1. Fetch Subject with its relations
+    // 1. Fetch Subjects
     const subject = await db.subject.findUnique({
         where: { id: subjectId },
         include: {
@@ -41,11 +41,7 @@ export default async function SubjectIdPage({
     });
 
     // 3. Completion Check
-    const requiredFields = [
-        subject.title,
-        subject.teachers.length > 0,
-        subject.chapters.length > 0,
-    ];
+    const requiredFields = [subject.title, subject.teachers.length > 0];
     const completedFields = requiredFields.filter(Boolean).length;
     const completionText = `(${completedFields}/${requiredFields.length})`;
 
@@ -74,9 +70,8 @@ export default async function SubjectIdPage({
                 </div>
             </div>
 
-            {/* Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
-                {/* LEFT COLUMN: Metadata & Teachers */}
+                {/*  Metadata & Teachers */}
                 <div>
                     <div className="flex items-center gap-x-2">
                         <div className="p-2 w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
@@ -94,7 +89,7 @@ export default async function SubjectIdPage({
                         subjectId={subject.id}
                     />
 
-                    {/* 2. Teachers Selector (Reused!) */}
+                    {/* 2. Teachers Selector */}
                     <div className="flex items-center gap-x-2 mt-10">
                         <div className="p-2 w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
                             <GraduationCap size={20} />
@@ -114,8 +109,8 @@ export default async function SubjectIdPage({
                     />
                 </div>
 
-                {/* RIGHT COLUMN: Chapters */}
-                <div className="space-y-6">
+                {/* Chapters */}
+                {/* <div className="space-y-6">
                     <div>
                         <div className="flex items-center gap-x-2">
                             <div className="p-2 w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
@@ -124,14 +119,14 @@ export default async function SubjectIdPage({
                             <h2 className="text-xl font-semibold">Chapters</h2>
                         </div>
 
-                        {/* 3. Chapters Form */}
+                        
                         <ChaptersForm
                             initialData={subject}
                             courseId={courseId}
                             subjectId={subjectId}
                         />
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

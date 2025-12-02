@@ -46,7 +46,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  role          UserRole  @default(STUDENT)
+  role          UserRole  @default(ADMIN)
 
   accounts      Account[]
   purchases     Purchase[]
@@ -93,6 +93,8 @@ model Course {
 
   duration            String? 
   validity            DateTime? 
+
+  startDate           DateTime?
 
   isPublished         Boolean @default(false)
 
@@ -162,7 +164,7 @@ model Chapter {
 model Lesson {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
-  position    Int
+
   isPublished Boolean  @default(false)
   isFree      Boolean  @default(false)
 
@@ -225,6 +227,10 @@ model Purchase {
   courseId  String   @db.ObjectId
   course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
+  razorpayOrderId   String?  
+  razorpayPaymentId String?  
+  price             Float?   
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

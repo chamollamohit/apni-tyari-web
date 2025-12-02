@@ -44,8 +44,9 @@ const formSchema = z.object({
     category: z.string().min(1),
     courseLanguage: z.string().min(1),
     target: z.string().min(1),
-    duration: z.string().optional(),
-    validity: z.date().optional(),
+    duration: z.string().min(1, "Duration is Required"),
+    validity: z.date().min(1, "Validity is Required"),
+    startDate: z.date().min(1, "Date is Required"),
 });
 
 export const MetadataForm = ({ initialData, courseId }: MetadataFormProps) => {
@@ -63,6 +64,9 @@ export const MetadataForm = ({ initialData, courseId }: MetadataFormProps) => {
             duration: initialData?.duration || "",
             validity: initialData?.validity
                 ? new Date(initialData.validity)
+                : undefined,
+            startDate: initialData?.startDate
+                ? new Date(initialData.startDate)
                 : undefined,
         },
     });
@@ -321,6 +325,57 @@ export const MetadataForm = ({ initialData, courseId }: MetadataFormProps) => {
                                                                 0
                                                             )
                                                         )
+                                                    }
+                                                    initialFocus
+                                                />
+                                            </PopoverContent>
+                                        </Popover>
+                                    </FormItem>
+                                )}
+                            />
+                            {/* Start Date */}
+                            <FormField
+                                control={form.control}
+                                name="startDate"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-col">
+                                        <FormLabel>Batch Starts On</FormLabel>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <FormControl>
+                                                    <Button
+                                                        variant={"outline"}
+                                                        className={cn(
+                                                            "w-full pl-3 text-left font-normal bg-white",
+                                                            !field.value &&
+                                                                "text-muted-foreground"
+                                                        )}
+                                                    >
+                                                        {field.value ? (
+                                                            format(
+                                                                field.value,
+                                                                "PPP"
+                                                            )
+                                                        ) : (
+                                                            <span>
+                                                                Pick a date
+                                                            </span>
+                                                        )}
+                                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                    </Button>
+                                                </FormControl>
+                                            </PopoverTrigger>
+                                            <PopoverContent
+                                                className="w-auto p-0"
+                                                align="start"
+                                            >
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={field.value}
+                                                    onSelect={field.onChange}
+                                                    disabled={(date) =>
+                                                        date <
+                                                        new Date("1900-01-01")
                                                     }
                                                     initialFocus
                                                 />

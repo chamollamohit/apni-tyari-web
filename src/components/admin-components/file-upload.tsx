@@ -24,8 +24,9 @@ export const FileUpload = ({ onChange, value }: FileUploadProps) => {
         if (!file) return;
 
         // 1. Validation
-        if (file.size > 10 * 1024 * 1024)
-            toast.error("File is too large (Max 10MB)");
+        if (file.size > 10 * 1024 * 1024) {
+            return toast.error("File is too large (Max 10MB)");
+        }
 
         try {
             setIsUploading(true);
@@ -38,7 +39,6 @@ export const FileUpload = ({ onChange, value }: FileUploadProps) => {
                 `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
                 formData
             );
-            console.log(response);
 
             // 3. Success
             onChange(response.data.secure_url);

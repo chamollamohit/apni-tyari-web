@@ -57,7 +57,7 @@ export const CourseCard = ({ course }: CourseCardProps) => {
                         )}
                     </div>
 
-                    <h3 className="text-lg font-bold text-slate-900 line-clamp-2 mb-1 group-hover:text-blue-700 transition-colors">
+                    <h3 className="text-lg font-bold text-slate-900 line-clamp-2 mb-1 transition-colors">
                         {course.title}
                     </h3>
 

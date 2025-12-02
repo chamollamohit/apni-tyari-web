@@ -63,7 +63,6 @@ export const SubjectTeachersForm = ({
         },
     });
 
-    const teacherIds = useWatch({ control: form.control, name: "teacherIds" });
     const { isSubmitting, isValid } = form.formState;
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {

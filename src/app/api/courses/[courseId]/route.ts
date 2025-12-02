@@ -35,3 +35,27 @@ export async function PATCH(
         return new NextResponse("Unable to update Course", { status: 500 });
     }
 }
+
+export async function DELETE(
+    req: Request,
+    { params }: { params: Promise<{ courseId: string }> }
+) {
+    try {
+        const session = await getServerSession(authOptions);
+        const { courseId } = await params;
+
+        if (session?.user?.role !== "ADMIN")
+            return new NextResponse("Unauthorized", { status: 401 });
+
+        const course = await db.course.delete({
+            where: { id: courseId },
+        });
+
+        if (!course) return new NextResponse("Not found", { status: 404 });
+
+        return NextResponse.json(course);
+    } catch (error) {
+        console.log("[COURSE_PUBLISH]", error);
+        return new NextResponse("Unable to Publish Course", { status: 500 });
+    }
+}

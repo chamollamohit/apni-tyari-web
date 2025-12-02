@@ -20,6 +20,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
+import { Editor } from "./editor";
+import { Preview } from "./preview";
 
 interface DescriptionFormProps {
     initialData: Course;
@@ -89,7 +91,7 @@ export const DescriptionForm = ({
                         !initialData.description && "text-slate-500 italic"
                     )}
                 >
-                    {initialData.description || "No description set"}
+                    <Preview value={initialData.description || ""} />
                 </p>
             )}
 
@@ -106,12 +108,7 @@ export const DescriptionForm = ({
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Textarea
-                                            disabled={isSubmitting}
-                                            placeholder="e.g. 'This course covers the fundamentals of Physics...'"
-                                            {...field}
-                                            className="bg-white min-h-[120px]" // taller box
-                                        />
+                                        <Editor {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

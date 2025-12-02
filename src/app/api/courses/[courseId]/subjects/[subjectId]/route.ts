@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { db } from "@/lib/db";
 
+// Update Subject
 export async function PATCH(
     req: Request,
     { params }: { params: Promise<{ courseId: string; subjectId: string }> }

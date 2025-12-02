@@ -26,6 +26,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { Separator } from "@radix-ui/react-dropdown-menu";
+import Image from "next/image";
 
 export const Navbar = () => {
     const { data: session } = useSession();
@@ -33,33 +34,38 @@ export const Navbar = () => {
     const pathname = usePathname();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-    // If Admin Panel, hide this navbar completely
-    if (pathname?.startsWith("/admin")) {
-        return null;
-    }
-
     const routes = [
-        { label: "Browse", href: "/" },
+        { label: "Browse Courses", href: "/search" },
         { label: "My Learning", href: "/dashboard", protected: true },
     ];
 
     return (
-        <nav className="fixed top-0 w-full z-50 bg-white border-b border-slate-200 h-16">
+        <nav className="sticky top-0 w-full z-50 bg-white border-b border-slate-200 h-16  inset-y-0">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
                 <div className="flex justify-between items-center h-full">
-                    {/* LEFT: Logo & Desktop Nav */}
+                    {/* Logo & Desktop Nav */}
                     <div className="flex items-center gap-8">
                         {/* Logo */}
                         <Link
                             href="/"
                             className="flex items-center gap-2 group"
                         >
-                            <div className="bg-black text-white p-1.5 rounded-md group-hover:bg-slate-800 transition">
-                                <BookOpen className="h-5 w-5" />
+                            <div className="hidden md:block relative h-15 w-50">
+                                <Image
+                                    src="/logo.png"
+                                    alt="Logo"
+                                    fill
+                                    className="object-contain"
+                                />
                             </div>
-                            <span className="font-bold text-xl text-slate-900 hidden sm:block">
-                                EdPlatform
-                            </span>
+                            <div className="md:hidden relative h-10 w-10">
+                                <Image
+                                    src="/mobile-logo.png"
+                                    alt="Logo"
+                                    fill
+                                    className="object-contain"
+                                />
+                            </div>
                         </Link>
 
                         {/* Desktop Navigation Links */}
@@ -118,7 +124,7 @@ export const Navbar = () => {
                                 </div>
                             ) : (
                                 <div className="flex items-center gap-4">
-                                    {/* Instructor Mode (Admin Only) */}
+                                    {/* Admin Mode */}
                                     {user.role === "ADMIN" && (
                                         <Link href="/admin/dashboard">
                                             <Button
@@ -126,7 +132,7 @@ export const Navbar = () => {
                                                 size="sm"
                                                 className="border-slate-300"
                                             >
-                                                Instructor Mode
+                                                Admin Mode
                                             </Button>
                                         </Link>
                                     )}
@@ -161,12 +167,6 @@ export const Navbar = () => {
                                                 <DropdownMenuItem className="cursor-pointer">
                                                     <LayoutDashboard className="h-4 w-4 mr-2" />
                                                     My Learning
-                                                </DropdownMenuItem>
-                                            </Link>
-                                            <Link href="/profile">
-                                                <DropdownMenuItem className="cursor-pointer">
-                                                    <User className="h-4 w-4 mr-2" />
-                                                    Profile Settings
                                                 </DropdownMenuItem>
                                             </Link>
                                             <DropdownMenuSeparator />
@@ -235,7 +235,7 @@ export const Navbar = () => {
                             );
                         })}
 
-                        {/* 3. Instructor Mode (Mobile) */}
+                        {/* 3. Admin Mode (Mobile) */}
                         {user?.role === "ADMIN" && (
                             <Link
                                 href="/admin/dashboard"
@@ -243,7 +243,7 @@ export const Navbar = () => {
                                 className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-slate-600 rounded-md mt-2"
                             >
                                 <GraduationCap className="h-4 w-4" />
-                                Instructor Dashboard
+                                Admin Dashboard
                             </Link>
                         )}
 
@@ -251,14 +251,7 @@ export const Navbar = () => {
                         {user ? (
                             <>
                                 <Separator className="my-2" />
-                                <Link
-                                    href="/profile"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                    className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md"
-                                >
-                                    <User className="h-4 w-4" />
-                                    Profile Settings
-                                </Link>
+
                                 <button
                                     onClick={() =>
                                         signOut({ callbackUrl: "/" })

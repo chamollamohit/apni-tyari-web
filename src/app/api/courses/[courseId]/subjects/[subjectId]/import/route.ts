@@ -111,15 +111,11 @@ export async function POST(
 
                     // B. Create Lesson
 
-                    const lessonCount = await tx.lesson.count({
-                        where: { chapterId },
-                    });
-
                     await tx.lesson.create({
                         data: {
                             title: row.Title,
                             chapterId: chapterId,
-                            position: lessonCount + 1,
+
                             isPublished: true,
                             isFree: false,
                             teacherId: teacherObj[row.TeacherEmail],
