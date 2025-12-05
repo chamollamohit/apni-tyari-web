@@ -14,7 +14,7 @@ A full-stack Learning Management System (LMS) built with **Next.js 16 (App Route
 -   **Secure Purchase:** Integrated **Razorpay** payment gateway with server-side signature verification.
 -   **My Learning Dashboard:** Track progress (%) across enrolled courses.
 -   **Course Player:**
-    -   "Netflix-style" video player with YouTube embedding.
+    -   Video player with YouTube embedding.
     -   Downloadable PDF notes.
     -   "Mark as Complete" logic to track syllabus coverage.
 -   **Smart Schedule:** Chronological timeline of classes. Future classes are **Time-Locked** and cannot be accessed before the scheduled date.

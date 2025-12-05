@@ -21,6 +21,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
+import { formatIST } from "@/lib/format";
 
 export default async function SubjectSchedulePage({
     params,
@@ -58,6 +59,7 @@ export default async function SubjectSchedulePage({
 
     // Calculate total stats for the header
     const allLessons = subject.chapters.flatMap((c) => c.lessons);
+    console.log(allLessons);
 
     const completedCount = allLessons.filter(
         (l) => l.userProgress?.[0]?.isCompleted
@@ -187,9 +189,8 @@ export default async function SubjectSchedulePage({
                                                         </div>
                                                         <div className="flex items-center gap-3 text-xs text-slate-500">
                                                             <span>
-                                                                {format(
-                                                                    lessonDate,
-                                                                    "MMM d, h:mm a"
+                                                                {formatIST(
+                                                                    lesson.date
                                                                 )}
                                                             </span>
                                                             {lesson.teacher && (

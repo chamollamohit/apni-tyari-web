@@ -2,12 +2,10 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { getDashboardCourses } from "@/actions/get-dashboard-courses";
-import { CourseCard } from "@/components/user-components/course-card";
 import { CheckCircle, Clock } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { CourseProgress } from "@/components/user-components/dashboard-components/course-progress";
-import { Badge } from "@/components/ui/badge";
 
 export default async function DashboardPage() {
     const session = await getServerSession(authOptions);
