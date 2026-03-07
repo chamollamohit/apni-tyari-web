@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
-import { getDashboardCourses } from "@/actions/get-dashboard-courses";
+import { getDashboardCourses } from "@/services/get-dashboard-courses";
 import { CheckCircle, Clock } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,9 +13,8 @@ export default async function DashboardPage() {
 
     if (!userId) return redirect(`/login?callbackUrl=/dashboard`);
 
-    const { completedCourses, coursesInProgress } = await getDashboardCourses(
-        userId
-    );
+    const { completedCourses, coursesInProgress } =
+        await getDashboardCourses(userId);
 
     return (
         <div className="p-6 max-w-7xl mx-auto space-y-8">
@@ -71,8 +70,7 @@ export default async function DashboardPage() {
                         <p>No courses found.</p>
                         <Link
                             href="/search"
-                            className="text-slate-900 underline mt-2 inline-block"
-                        >
+                            className="text-slate-900 underline mt-2 inline-block">
                             Browse Courses
                         </Link>
                     </div>
@@ -82,8 +80,7 @@ export default async function DashboardPage() {
                             (course) => (
                                 <Link
                                     key={course.id}
-                                    href={`/courses/${course.id}/learn`}
-                                >
+                                    href={`/courses/${course.id}/learn`}>
                                     <div className="group hover:shadow-md transition overflow-hidden border rounded-lg h-full flex flex-col bg-white">
                                         <div className="relative w-full aspect-video rounded-t-md overflow-hidden bg-slate-100">
                                             {course.imageUrl && (
@@ -113,7 +110,7 @@ export default async function DashboardPage() {
                                         </div>
                                     </div>
                                 </Link>
-                            )
+                            ),
                         )}
                     </div>
                 )}

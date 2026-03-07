@@ -1,4 +1,4 @@
-import { getCourses } from "@/actions/get-courses";
+import { getCourses } from "@/services/get-courses";
 import { CourseCard } from "@/components/user-components/course-card";
 import { SearchInput } from "@/components/user-components/search-input";
 import { Categories } from "@/components/user-components/categories";
@@ -37,7 +37,10 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {courses.map((course) => (
-                        <CourseCard key={course.id} course={course} />
+                        <CourseCard
+                            key={course.id}
+                            course={course}
+                        />
                     ))}
                 </div>
 

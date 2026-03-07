@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { db } from "@/lib/db";
-import { getCourseContent } from "@/actions/get-course-content";
+import { getCourseContent } from "@/services/get-course-content";
 import { ArrowLeft, BookOpen, ChevronRight, Layers } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -29,8 +29,7 @@ export default async function CourseLearnPage({
             <div>
                 <Link
                     href={`/dashboard`}
-                    className="inline-flex items-center text-sm text-slate-500 hover:text-slate-900 transition"
-                >
+                    className="inline-flex items-center text-sm text-slate-500 hover:text-slate-900 transition">
                     <ArrowLeft className="h-4 w-4 mr-2" /> Back to Dashboard
                 </Link>
                 <h1 className="text-3xl font-bold text-slate-900">
@@ -50,11 +49,11 @@ export default async function CourseLearnPage({
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {course.subjects.map((subject) => {
                         const subjectLessons = subject.chapters.flatMap(
-                            (chap) => chap.lessons
+                            (chap) => chap.lessons,
                         );
                         const totalLessons = subjectLessons.length;
                         const completedLessons = subjectLessons.filter(
-                            (l) => l.userProgress?.[0]?.isCompleted
+                            (l) => l.userProgress?.[0]?.isCompleted,
                         ).length;
 
                         const progress =
@@ -66,8 +65,7 @@ export default async function CourseLearnPage({
                             <Link
                                 key={subject.id}
                                 href={`/courses/${courseId}/learn/subject/${subject.id}`}
-                                className="group block h-full"
-                            >
+                                className="group block h-full">
                                 <div className="h-full bg-white border border-slate-200 rounded-xl p-6 flex flex-col hover:border-slate-300 hover:shadow-md transition-all duration-200">
                                     <div className="flex items-start justify-between mb-4">
                                         <div className="p-3 bg-slate-50 rounded-lg text-slate-700 group-hover:bg-slate-100 transition">
@@ -75,8 +73,7 @@ export default async function CourseLearnPage({
                                         </div>
                                         <Badge
                                             variant="secondary"
-                                            className="bg-slate-50 text-slate-600 font-normal"
-                                        >
+                                            className="bg-slate-50 text-slate-600 font-normal">
                                             {totalLessons} Sessions
                                         </Badge>
                                     </div>
@@ -103,8 +100,7 @@ export default async function CourseLearnPage({
 
                                         <Button
                                             variant="outline"
-                                            className="w-full mt-4 border-slate-200 group-hover:bg-slate-900 group-hover:text-white group-hover:border-slate-900 transition-all"
-                                        >
+                                            className="w-full mt-4 border-slate-200 group-hover:bg-slate-900 group-hover:text-white group-hover:border-slate-900 transition-all">
                                             View Schedule{" "}
                                             <ChevronRight className="h-4 w-4 ml-2" />
                                         </Button>

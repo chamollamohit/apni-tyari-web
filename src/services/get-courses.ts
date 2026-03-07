@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { redisClient } from "@/lib/redis";
 import { CourseCategory, Course } from "@prisma/client";
 
 type GetCourses = {
@@ -11,12 +12,20 @@ export const getCourses = async ({
     categoryId,
 }: GetCourses): Promise<Course[]> => {
     try {
+
+        const cacheKey = `courses:search:${title || "all"}:${categoryId || "all"}`;
+
+        const cachedCourseData = await redisClient.get(cacheKey)
+        if (cachedCourseData) {
+            return JSON.parse(cachedCourseData)
+        }
+
         const courses = await db.course.findMany({
             where: {
                 isPublished: true,
                 title: {
                     contains: title,
-                    mode: "insensitive", // Search "physics" finds "Physics"
+                    mode: "insensitive",
                 },
                 category: categoryId,
             },
@@ -27,6 +36,13 @@ export const getCourses = async ({
                 createdAt: "desc",
             },
         });
+        if (courses.length > 0) {
+            await redisClient.set(
+                cacheKey,
+                JSON.stringify(courses),
+                "EX", 3600
+            );
+        }
 
         return courses;
     } catch (error) {

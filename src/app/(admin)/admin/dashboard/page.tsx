@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getAnalytics } from "@/actions/get-analytics"; // The Backend Logic
+import { getAnalytics } from "@/services/get-analytics";
 import { CourseAnalyticsTable } from "@/components/dashboard-components/course-analytics-table";
 
 export default async function DashboardPage() {

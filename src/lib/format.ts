@@ -8,11 +8,11 @@ export const formatPrice = (price: number) => {
 export const formatIST = (date: Date | string) => {
     return new Date(date).toLocaleString("en-IN", {
         timeZone: "Asia/Kolkata",
-        month: "short", // "Dec"
-        day: "numeric", // "05"
-        year: "numeric", // "2025"
-        hour: "2-digit", // "05"
-        minute: "2-digit", // "30"
-        hour12: true, // "PM"
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
     });
 };

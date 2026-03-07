@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { db } from "@/lib/db";
+import { redisClient } from "@/lib/redis";
 
 export async function PATCH(
     req: Request,
@@ -26,6 +27,11 @@ export async function PATCH(
             where: { id: courseId },
             data: { isPublished: false },
         });
+
+        const keys = await redisClient.keys("courses:search:*");
+        if (keys.length > 0) {
+            await redisClient.del(keys);
+        }
 
         return NextResponse.json(publishedCourse);
     } catch (error) {

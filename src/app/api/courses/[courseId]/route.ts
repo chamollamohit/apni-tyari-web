@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { db } from "@/lib/db";
+import { redisClient } from "@/lib/redis";
 
 export async function PATCH(
     req: Request,
@@ -29,6 +30,11 @@ export async function PATCH(
             },
         });
 
+        const keys = await redisClient.keys("courses:search:*");
+        if (keys.length > 0) {
+            await redisClient.del(keys);
+        }
+
         return NextResponse.json(course, { status: 200 });
     } catch (error) {
         console.log("[COURSE_ID_PATCH]", error);
@@ -52,6 +58,11 @@ export async function DELETE(
         });
 
         if (!course) return new NextResponse("Not found", { status: 404 });
+
+        const keys = await redisClient.keys("courses:search:*");
+        if (keys.length > 0) {
+            await redisClient.del(keys);
+        }
 
         return NextResponse.json(course);
     } catch (error) {

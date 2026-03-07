@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { db } from "@/lib/db";
+import { redisClient } from "@/lib/redis";
 
 export async function PATCH(
     req: Request,
@@ -22,7 +23,6 @@ export async function PATCH(
         if (!course)
             return new NextResponse("Course Not found", { status: 404 });
 
-        // Strict Validation before publishing
         if (
             !course.title ||
             !course.description ||
@@ -37,6 +37,11 @@ export async function PATCH(
             where: { id: courseId },
             data: { isPublished: true },
         });
+
+        const keys = await redisClient.keys("courses:search:*");
+        if (keys.length > 0) {
+            await redisClient.del(keys);
+        }
 
         return NextResponse.json(publishedCourse);
     } catch (error) {

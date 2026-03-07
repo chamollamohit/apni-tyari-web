@@ -52,7 +52,6 @@ export const getDashboardCourses = async (
 
             const allLessonIds = allLessons.map((lesson) => lesson.id);
 
-            // if no lesson in Course Progress will be Default 0
             if (allLessonIds.length === 0) {
                 course.progress = 0;
                 continue;
