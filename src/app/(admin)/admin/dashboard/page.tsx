@@ -22,18 +22,15 @@ export default async function DashboardPage() {
         return redirect("/");
     }
 
-    // 1. Fetch Analytics Data (Revenue, Sales, Student Count per Course)
     const { data, totalRevenue, totalSales, uniqueStudents } =
         await getAnalytics();
 
-    // 2. Fetch Total Active Batches count
     const totalCourses = await db.course.count({
         where: { isPublished: true },
     });
 
     return (
         <div className="p-8 space-y-8 bg-slate-50/50 min-h-full">
-            {/* Header */}
             <div className="flex flex-col gap-2">
                 <h1 className="text-3xl font-bold tracking-tight text-slate-900">
                     Dashboard
@@ -43,9 +40,7 @@ export default async function DashboardPage() {
                 </p>
             </div>
 
-            {/* KPI Cards Row */}
             <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-                {/* Total Revenue */}
                 <Card className="border-slate-200 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">
@@ -63,8 +58,6 @@ export default async function DashboardPage() {
                         </p>
                     </CardContent>
                 </Card>
-
-                {/* Total Sales */}
                 <Card className="border-slate-200 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">
@@ -82,7 +75,6 @@ export default async function DashboardPage() {
                     </CardContent>
                 </Card>
 
-                {/* Active Students */}
                 <Card className="border-slate-200 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">
@@ -99,8 +91,6 @@ export default async function DashboardPage() {
                         </p>
                     </CardContent>
                 </Card>
-
-                {/* Active Batches */}
                 <Card className="border-slate-200 shadow-sm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">
@@ -118,8 +108,6 @@ export default async function DashboardPage() {
                     </CardContent>
                 </Card>
             </div>
-
-            {/* Main Content Area */}
             <div className="grid grid-cols-1 lg:grid-cols-1">
                 <CourseAnalyticsTable data={data} />
             </div>

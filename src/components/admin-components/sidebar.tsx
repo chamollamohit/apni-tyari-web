@@ -7,6 +7,7 @@ import {
     LayoutDashboard,
     List,
     LogOut,
+    ShieldCheck,
 } from "lucide-react";
 import { SidebarItem } from "./sidebar-item";
 import { Button } from "@/components/ui/button";
@@ -29,9 +30,14 @@ const routes = [
         href: "/admin/teachers",
     },
     {
-        icon: Clapperboard,
+        icon: ShieldCheck,
         label: "Batch Operations",
         href: "/admin/operations",
+    },
+    {
+        icon: Clapperboard,
+        label: "Secure Videos",
+        href: "/admin/secure-videos",
     },
 ];
 
@@ -78,8 +84,7 @@ export const Sidebar = () => {
                 <Link href="/">
                     <Button
                         variant="outline"
-                        className="w-full justify-start gap-x-2"
-                    >
+                        className="w-full justify-start gap-x-2">
                         <LogOut size={18} />
                         Exit to Website
                     </Button>
