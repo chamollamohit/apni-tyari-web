@@ -5,15 +5,19 @@ export const handler = async (event: any) => {
         const s3Event = JSON.parse(record.body);
         if (!s3Event.Records) continue;
 
+        const s3Object = s3Event.Records[0].s3.object;
         const bucket = s3Event.Records[0].s3.bucket.name;
         const key = decodeURIComponent(s3Event.Records[0].s3.object.key.replace(/\+/g, ' '));
+        const sizeInBytes = s3Object.size;
 
-        console.log(`Processing: ${key} from ${bucket}`);
+        console.log(s3Event.Records[0]);
 
         try {
             const response = await axios.post(`${process.env.APP_URL}/api/webhooks/video`, {
                 s3Key: key,
-                bucketName: bucket,
+                bucketId: bucket,
+                size: sizeInBytes,
+                mimeType: 'video/mp4',
                 status: 'COMPLETED'
             }, {
                 headers: {
