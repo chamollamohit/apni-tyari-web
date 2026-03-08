@@ -11,7 +11,7 @@ type CourseContent = {
     })[];
 };
 
-export const getCourseContent = async (courseId: string, userId: string) => {
+export const getCourseContent = async (courseId: string, userId: string): Promise<CourseContent | null> => {
     try {
         const course = await db.course.findUnique({
             where: { id: courseId },

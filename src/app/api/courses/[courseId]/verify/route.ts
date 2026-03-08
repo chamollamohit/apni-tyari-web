@@ -24,7 +24,6 @@ export async function POST(
         const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
             body;
 
-        // 1. Signature Verification
         const bodyString = razorpay_order_id + "|" + razorpay_payment_id;
         const expectedSignature = crypto
             .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
@@ -38,13 +37,11 @@ export async function POST(
             );
         }
 
-        // 2. Fetch Course Price
         const course = await db.course.findUnique({
             where: { id: courseId },
             select: { price: true },
         });
 
-        // 3. Create Purchase with Transaction Details
         await db.purchase.create({
             data: {
                 userId: user.id,

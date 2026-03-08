@@ -8,7 +8,6 @@ export const getAnalytics = async () => {
             },
         });
 
-        // 1. Group by Course Title
         const groupedData: {
             [key: string]: { revenue: number; count: number };
         } = {};
@@ -25,7 +24,6 @@ export const getAnalytics = async () => {
             groupedData[courseTitle].count += 1;
         });
 
-        // 2. Formated Course Data
         const data = Object.entries(groupedData).map(
             ([courseTitle, stats]) => ({
                 name: courseTitle,
@@ -34,11 +32,9 @@ export const getAnalytics = async () => {
             })
         );
 
-        // 3. Totals Sales and Revenue
         const totalRevenue = data.reduce((acc, curr) => acc + curr.total, 0);
         const totalSales = purchases.length;
 
-        // Unique students across entire platform
         const uniqueStudents = new Set(purchases.map((p) => p.userId)).size;
 
         return {
