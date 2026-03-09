@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { db } from "@/lib/db";
 
-// Update Subject
+
 export async function PATCH(
     req: Request,
     { params }: { params: Promise<{ courseId: string; subjectId: string }> }
@@ -20,7 +20,6 @@ export async function PATCH(
             );
         }
 
-        // Verify subject belongs to course
         const ownSubject = await db.subject.findUnique({
             where: {
                 id: subjectId,
@@ -54,7 +53,7 @@ export async function PATCH(
     }
 }
 
-// 2. DELETE (Remove Subject)
+
 export async function DELETE(
     req: Request,
     { params }: { params: Promise<{ courseId: string; subjectId: string }> }

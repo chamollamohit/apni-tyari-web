@@ -14,7 +14,7 @@ export async function POST(req: Request) {
             );
         }
 
-        // Validation
+
         const { title, chapterId, teacherId, date } = await req.json();
 
         if (!title || !chapterId || !teacherId || !date) {
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
             );
         }
 
-        // Adding Lesson entry in DB
+
         const lesson = await db.lesson.create({
             data: {
                 title,

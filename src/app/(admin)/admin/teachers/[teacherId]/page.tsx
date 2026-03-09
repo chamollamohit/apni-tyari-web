@@ -26,13 +26,11 @@ export default async function TeacherIdPage({
 
     return (
         <div className="p-6">
-            {/* Header */}
             <div className="flex items-center justify-between mb-8">
                 <div className="flex flex-col gap-y-2">
                     <Link
                         href="/admin/teachers"
-                        className="flex items-center text-sm hover:opacity-75 transition mb-2"
-                    >
+                        className="flex items-center text-sm hover:opacity-75 transition mb-2">
                         <ChevronLeft className="h-4 w-4 mr-2" />
                         Back
                     </Link>
@@ -43,7 +41,6 @@ export default async function TeacherIdPage({
                 </div>
             </div>
 
-            {/* Grid Layout */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <TeacherDetailsForm

@@ -9,22 +9,15 @@ export async function POST(req: Request) {
     }
 
     const { s3Key, size, mimeType, status, bucketId } = await req.json();
+    const fileName = s3Key.split('/').pop();
     try {
-
-        await db.video.upsert({
-            where: { key: s3Key },
-            update: {
+        await db.video.updateMany({
+            where: { key: { contains: fileName } },
+            data: {
+                key: s3Key,
                 status: status,
                 size: size,
-                mimeType: mimeType,
             },
-            create: {
-                bucketId,
-                key: s3Key,
-                mimeType,
-                size,
-                status
-            }
         })
 
         return NextResponse.json({ success: true });

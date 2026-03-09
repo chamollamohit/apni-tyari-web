@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { db } from "@/lib/db";
 
-// DELETE ALL SCHEDULE (Bulk Reset)
+
 export async function DELETE(
     req: Request,
     { params }: { params: Promise<{ courseId: string; subjectId: string }> }
@@ -19,7 +19,6 @@ export async function DELETE(
             );
         }
 
-        // Delete all chapters (which cascades to delete all lessons)
         await db.chapter.deleteMany({
             where: { subjectId: subjectId },
         });

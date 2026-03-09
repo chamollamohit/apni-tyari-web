@@ -53,7 +53,6 @@ export default async function OperationsPage({
             ? endOfDay(new Date(to))
             : endOfDay(addDays(new Date(), 6));
 
-        // Fetch Schedule
         scheduleData = await db.lesson.findMany({
             where: {
                 chapter: {
@@ -73,7 +72,6 @@ export default async function OperationsPage({
             },
         });
 
-        // Fetch Chapters
         availableChapters = await db.chapter.findMany({
             where: {
                 subjectId: subjectId,
@@ -81,7 +79,6 @@ export default async function OperationsPage({
             orderBy: { position: "asc" },
         });
 
-        // Fetch Teachers
         availableTeachers = await db.teacher.findMany({
             where: {
                 subjects: {

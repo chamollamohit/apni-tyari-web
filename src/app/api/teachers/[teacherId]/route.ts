@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { db } from "@/lib/db";
 
-// 1. UPDATE Teacher
+
 export async function PATCH(
     req: Request,
     { params }: { params: Promise<{ teacherId: string }> }
@@ -35,7 +35,7 @@ export async function PATCH(
     }
 }
 
-// 2. DELETE Teacher
+
 export async function DELETE(
     req: Request,
     { params }: { params: Promise<{ teacherId: string }> }

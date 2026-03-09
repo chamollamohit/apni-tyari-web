@@ -31,7 +31,6 @@ export const VideoTable = ({ videos }: VideoTableProps) => {
         const response = await axios.post("/api/videos/playback", {
             s3Key: key,
         });
-        console.log(key, response.data.url);
 
         setVideoModal({
             url: response.data.url,
@@ -39,17 +38,19 @@ export const VideoTable = ({ videos }: VideoTableProps) => {
     };
 
     return (
-        <>
-            <VideoPlayerModal
-                isOpen={!!videoModal}
-                onClose={() => setVideoModal(null)}
-                videoUrl={videoModal?.url || null}
-            />
+        <div className="">
+            <div className="flex items-end">
+                <VideoPlayerModal
+                    isOpen={!!videoModal}
+                    onClose={() => setVideoModal(null)}
+                    videoUrl={videoModal?.url || null}
+                />
+            </div>
+
             <div className="rounded-md border bg-white">
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>File Name</TableHead>
                             <TableHead>ID</TableHead>
                             <TableHead>Status</TableHead>
                             <TableHead>Size</TableHead>
@@ -59,9 +60,6 @@ export const VideoTable = ({ videos }: VideoTableProps) => {
                     <TableBody>
                         {videos.map((video) => (
                             <TableRow key={video.id}>
-                                <TableCell className="font-medium">
-                                    {video.key.split("/").pop()}
-                                </TableCell>
                                 <TableCell className="font-medium">
                                     {video.key}
                                 </TableCell>
@@ -79,9 +77,7 @@ export const VideoTable = ({ videos }: VideoTableProps) => {
                                 <TableCell className="text-right space-x-2">
                                     {video.status === "COMPLETED" ? (
                                         <Button
-                                            onClick={() =>
-                                                onWatch(video.key, "Hi")
-                                            }>
+                                            onClick={() => onWatch(video.key)}>
                                             <Play className="h-4 w-4 mr-2" />{" "}
                                             Watch
                                         </Button>
@@ -96,7 +92,7 @@ export const VideoTable = ({ videos }: VideoTableProps) => {
                         {videos.length === 0 && (
                             <TableRow>
                                 <TableCell
-                                    colSpan={4}
+                                    colSpan={5}
                                     className="h-24 text-center">
                                     No videos found.
                                 </TableCell>
@@ -105,6 +101,6 @@ export const VideoTable = ({ videos }: VideoTableProps) => {
                     </TableBody>
                 </Table>
             </div>
-        </>
+        </div>
     );
 };

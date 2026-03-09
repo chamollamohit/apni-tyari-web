@@ -21,17 +21,15 @@ const AuthCallbackContent = () => {
         }
 
         if (status === "authenticated" && session) {
-            // 1. If specific return URL exists
             if (returnTo && returnTo !== "/auth-callback") {
                 router.push(returnTo);
                 return;
             }
 
-            // 2. Default Redirects based on Role
             if (session.user.role === "ADMIN") {
                 router.push("/admin/dashboard");
             } else {
-                router.push("/"); //
+                router.push("/");
             }
         }
     }, [session, status, router, returnTo]);
@@ -48,8 +46,7 @@ export default function AuthCallbackPage() {
     return (
         <div className="w-full h-screen flex items-center justify-center bg-white">
             <Suspense
-                fallback={<div className="animate-pulse">Loading...</div>}
-            >
+                fallback={<div className="animate-pulse">Loading...</div>}>
                 <AuthCallbackContent />
             </Suspense>
         </div>

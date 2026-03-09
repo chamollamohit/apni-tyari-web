@@ -31,7 +31,7 @@ export async function POST(
             );
         }
 
-        // 1. Check if already purchased
+
         const purchase = await db.purchase.findUnique({
             where: {
                 userId_courseId: {
@@ -48,14 +48,14 @@ export async function POST(
             );
         }
 
-        // 2. Initialize Razorpay
+
         const razorpay = new Razorpay({
             key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
             key_secret: process.env.RAZORPAY_KEY_SECRET!,
         });
 
-        // 3. Create Order
-        // Total Ammount
+
+
         const amount = Math.round((course.price || 0) * 100);
 
         const options = {
@@ -70,7 +70,7 @@ export async function POST(
 
         const order = await razorpay.orders.create(options);
 
-        // 4. Return Order ID to Frontend
+
         return NextResponse.json({
             orderId: order.id,
             amount: amount,

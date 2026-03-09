@@ -57,22 +57,19 @@ export default async function SubjectSchedulePage({
 
     if (!subject) return redirect(`/courses/${courseId}/learn`);
 
-    // Calculate total stats for the header
     const allLessons = subject.chapters.flatMap((c) => c.lessons);
     console.log(allLessons);
 
     const completedCount = allLessons.filter(
-        (l) => l.userProgress?.[0]?.isCompleted
+        (l) => l.userProgress?.[0]?.isCompleted,
     ).length;
 
     return (
         <div className="max-w-5xl mx-auto p-6 min-h-screen">
-            {/* Header */}
             <div className="mb-8 border-b border-slate-200 pb-6">
                 <Link
                     href={`/courses/${courseId}/learn`}
-                    className="inline-flex items-center text-sm text-slate-500 hover:text-slate-900 transition mb-4"
-                >
+                    className="inline-flex items-center text-sm text-slate-500 hover:text-slate-900 transition mb-4">
                     <ArrowLeft className="h-4 w-4 mr-2" /> Back to Course
                 </Link>
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -88,21 +85,17 @@ export default async function SubjectSchedulePage({
                 </div>
             </div>
 
-            {/* Chapter Accordion  */}
             <div className="space-y-4">
                 <Accordion
                     type="single"
                     collapsible
                     className="w-full space-y-4"
-                    defaultValue={subject.chapters[0]?.id}
-                >
+                    defaultValue={subject.chapters[0]?.id}>
                     {subject.chapters.map((chapter) => (
                         <AccordionItem
                             key={chapter.id}
                             value={chapter.id}
-                            className="border border-slate-200 rounded-lg bg-white overflow-hidden shadow-sm"
-                        >
-                            {/* Chapter Header */}
+                            className="border border-slate-200 rounded-lg bg-white overflow-hidden shadow-sm">
                             <AccordionTrigger className="px-6 py-4 hover:bg-slate-50 hover:no-underline">
                                 <div className="flex items-center gap-4 text-left">
                                     <div className="p-2 bg-slate-100 rounded-md text-slate-700">
@@ -119,7 +112,6 @@ export default async function SubjectSchedulePage({
                                 </div>
                             </AccordionTrigger>
 
-                            {/* Lesson Rows */}
                             <AccordionContent className="border-t border-slate-100 bg-slate-50/50 p-0">
                                 {chapter.lessons.length === 0 ? (
                                     <div className="p-6 text-center text-slate-400 text-sm italic">
@@ -129,7 +121,7 @@ export default async function SubjectSchedulePage({
                                     <div className="divide-y divide-slate-100">
                                         {chapter.lessons.map((lesson) => {
                                             const lessonDate = new Date(
-                                                lesson.date
+                                                lesson.date,
                                             );
                                             const isLocked =
                                                 isFuture(lessonDate);
@@ -146,10 +138,8 @@ export default async function SubjectSchedulePage({
                                                         "flex items-center gap-4 p-4 transition-colors",
                                                         isLocked
                                                             ? "opacity-60 bg-slate-50"
-                                                            : "hover:bg-white"
-                                                    )}
-                                                >
-                                                    {/* Status Icon */}
+                                                            : "hover:bg-white",
+                                                    )}>
                                                     <div className="flex-shrink-0">
                                                         {isLocked ? (
                                                             <Lock className="h-5 w-5 text-slate-400" />
@@ -161,13 +151,12 @@ export default async function SubjectSchedulePage({
                                                                     "h-5 w-5",
                                                                     isLiveToday
                                                                         ? "text-red-600 animate-pulse"
-                                                                        : "text-slate-900"
+                                                                        : "text-slate-900",
                                                                 )}
                                                             />
                                                         )}
                                                     </div>
 
-                                                    {/* Info */}
                                                     <div className="flex-1 min-w-0">
                                                         <div className="flex items-center gap-2 mb-1">
                                                             <h4
@@ -175,9 +164,8 @@ export default async function SubjectSchedulePage({
                                                                     "font-medium truncate",
                                                                     isCompleted
                                                                         ? "text-slate-500"
-                                                                        : "text-slate-900"
-                                                                )}
-                                                            >
+                                                                        : "text-slate-900",
+                                                                )}>
                                                                 {lesson.title}
                                                             </h4>
                                                             {isLiveToday && (
@@ -190,7 +178,7 @@ export default async function SubjectSchedulePage({
                                                         <div className="flex items-center gap-3 text-xs text-slate-500">
                                                             <span>
                                                                 {formatIST(
-                                                                    lesson.date
+                                                                    lesson.date,
                                                                 )}
                                                             </span>
                                                             {lesson.teacher && (
@@ -210,7 +198,6 @@ export default async function SubjectSchedulePage({
                                                         </div>
                                                     </div>
 
-                                                    {/* Content Indicators (Video/Notes) */}
                                                     <div className="hidden sm:flex items-center gap-3 text-slate-400">
                                                         {lesson.videoUrl && (
                                                             <div
@@ -218,9 +205,8 @@ export default async function SubjectSchedulePage({
                                                                 className={cn(
                                                                     isLocked
                                                                         ? ""
-                                                                        : "text-slate-700"
-                                                                )}
-                                                            >
+                                                                        : "text-slate-700",
+                                                                )}>
                                                                 <Video className="h-4 w-4" />
                                                             </div>
                                                         )}
@@ -230,31 +216,27 @@ export default async function SubjectSchedulePage({
                                                                 className={cn(
                                                                     isLocked
                                                                         ? ""
-                                                                        : "text-slate-700"
-                                                                )}
-                                                            >
+                                                                        : "text-slate-700",
+                                                                )}>
                                                                 <FileText className="h-4 w-4" />
                                                             </div>
                                                         )}
                                                     </div>
 
-                                                    {/* Action */}
                                                     <div className="flex-shrink-0">
                                                         {isLocked ? (
                                                             <span className="text-xs font-medium text-slate-400 bg-slate-100 px-2 py-1 rounded">
                                                                 {format(
                                                                     lessonDate,
-                                                                    "MMM d"
+                                                                    "MMM d",
                                                                 )}
                                                             </span>
                                                         ) : (
                                                             <Link
-                                                                href={`/courses/${courseId}/learn/lessons/${lesson.id}`}
-                                                            >
+                                                                href={`/courses/${courseId}/learn/lessons/${lesson.id}`}>
                                                                 <Badge
                                                                     variant="outline"
-                                                                    className="hover:bg-black hover:text-white cursor-pointer border-slate-300"
-                                                                >
+                                                                    className="hover:bg-black hover:text-white cursor-pointer border-slate-300">
                                                                     Start
                                                                 </Badge>
                                                             </Link>

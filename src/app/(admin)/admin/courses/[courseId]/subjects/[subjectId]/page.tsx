@@ -11,7 +11,7 @@ import {
 import Link from "next/link";
 
 import { SubjectTitleForm } from "@/components/admin-components/course-components/subject-title-form";
-// import { ChaptersForm } from "@/components/admin-components/course-components/chapters-form";
+
 import { SubjectTeachersForm } from "@/components/admin-components/course-components/subject-teachers-form";
 
 export default async function SubjectIdPage({
@@ -24,7 +24,6 @@ export default async function SubjectIdPage({
 
     if (session?.user?.role !== "ADMIN") return redirect("/");
 
-    // 1. Fetch Subjects
     const subject = await db.subject.findUnique({
         where: { id: subjectId },
         include: {
@@ -35,25 +34,21 @@ export default async function SubjectIdPage({
 
     if (!subject) return redirect(`/admin/courses/${courseId}`);
 
-    // 2. Fetch All Teachers
     const allTeachers = await db.teacher.findMany({
         orderBy: { name: "asc" },
     });
 
-    // 3. Completion Check
     const requiredFields = [subject.title, subject.teachers.length > 0];
     const completedFields = requiredFields.filter(Boolean).length;
     const completionText = `(${completedFields}/${requiredFields.length})`;
 
     return (
         <div className="p-6">
-            {/* Header */}
             <div className="flex items-center justify-between">
                 <div className="w-full">
                     <Link
                         href={`/admin/courses/${courseId}`}
-                        className="flex items-center text-sm hover:opacity-75 transition mb-6"
-                    >
+                        className="flex items-center text-sm hover:opacity-75 transition mb-6">
                         <ArrowLeft className="h-4 w-4 mr-2" />
                         Back to Course Setup
                     </Link>
@@ -71,7 +66,6 @@ export default async function SubjectIdPage({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
-                {/*  Metadata & Teachers */}
                 <div>
                     <div className="flex items-center gap-x-2">
                         <div className="p-2 w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
@@ -82,14 +76,12 @@ export default async function SubjectIdPage({
                         </h2>
                     </div>
 
-                    {/* 1. Title Form */}
                     <SubjectTitleForm
                         initialData={subject}
                         courseId={courseId}
                         subjectId={subject.id}
                     />
 
-                    {/* 2. Teachers Selector */}
                     <div className="flex items-center gap-x-2 mt-10">
                         <div className="p-2 w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
                             <GraduationCap size={20} />

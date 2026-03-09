@@ -32,7 +32,7 @@ export default async function CourseDetailsPage({
 }) {
     const { courseId } = await params;
     const session = await getServerSession(authOptions);
-    // 1. Fetch Course
+
     const course = await db.course.findUnique({
         where: {
             id: courseId,
@@ -57,7 +57,6 @@ export default async function CourseDetailsPage({
         return redirect("/");
     }
 
-    // 2. CHECK PURCHASE STATUS
     let hasPurchased = false;
     if (session?.user?.id) {
         const purchase = await db.purchase.findUnique({
@@ -75,13 +74,12 @@ export default async function CourseDetailsPage({
         ...course.subjects.flatMap((subject) => subject.teachers),
     ];
 
-    // 2. Calculate Stats
     const discount =
         course.originalPrice && course.price
             ? Math.round(
                   ((course.originalPrice - course.price) /
                       course.originalPrice) *
-                      100
+                      100,
               )
             : 0;
 
@@ -89,26 +87,24 @@ export default async function CourseDetailsPage({
         (acc, sub) =>
             acc +
             sub.chapters.reduce((cAcc, chap) => cAcc + chap.lessons.length, 0),
-        0
+        0,
     );
 
     return (
         <div className="min-h-screen bg-slate-50 pb-20">
-            {/* 1. HERO HEADER  */}
             <div className="bg-slate-900 text-white pt-10 pb-20 px-6">
                 <div className="max-w-7xl mx-auto">
                     <div className="max-w-3xl space-y-4">
                         <div className="flex items-center gap-x-2">
                             <Badge
                                 variant="secondary"
-                                className="bg-slate-700 text-white border-none hover:bg-slate-600"
-                            >
+                                className="bg-slate-700 text-white border-none hover:bg-slate-600">
                                 {course.category}
                             </Badge>
                             <span className="text-slate-400 text-sm font-medium">
                                 Last updated{" "}
                                 {new Date(
-                                    course.updatedAt
+                                    course.updatedAt,
                                 ).toLocaleDateString()}
                             </span>
                         </div>
@@ -116,7 +112,6 @@ export default async function CourseDetailsPage({
                             {course.title}
                         </h1>
 
-                        {/* Quick Stats Row */}
                         <div className="grid grid-cols-2 gap-6 text-sm font-medium text-slate-300 pt-2">
                             <div className="flex items-center gap-2">
                                 <Globe className="h-4 w-4 text-yellow-400" />
@@ -162,9 +157,7 @@ export default async function CourseDetailsPage({
 
             <div className="max-w-7xl mx-auto px-6 -mt-10">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* --- LEFT COLUMN: CONTENT (70%) --- */}
                     <div className="lg:col-span-2 space-y-8">
-                        {/* A. Preview Video Section (Card) */}
                         <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-6">
                             <h2 className="text-xl font-bold text-slate-900">
                                 Orientation Video
@@ -186,7 +179,6 @@ export default async function CourseDetailsPage({
                             </div>
                         </div>
 
-                        {/* B. What you'll learn / Description */}
                         <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-4">
                             <h2 className="text-xl font-bold text-slate-900">
                                 About this course
@@ -196,7 +188,6 @@ export default async function CourseDetailsPage({
                             </p>
                         </div>
 
-                        {/* C. Curriculum (Accordion) */}
                         <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-6">
                             <div className="flex items-center justify-between">
                                 <h2 className="text-xl font-bold text-slate-900">
@@ -209,7 +200,6 @@ export default async function CourseDetailsPage({
                             <SubjectList subjects={course.subjects} />
                         </div>
 
-                        {/* D. Faculty Profiles */}
                         <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-6">
                             <h2 className="text-xl font-bold text-slate-900">
                                 Know your Teachers
@@ -218,8 +208,7 @@ export default async function CourseDetailsPage({
                                 {allTeachers.map((teacher) => (
                                     <div
                                         key={teacher.id}
-                                        className="flex items-start gap-4 p-4 border rounded-lg hover:border-slate-300 transition bg-slate-50/50"
-                                    >
+                                        className="flex items-start gap-4 p-4 border rounded-lg hover:border-slate-300 transition bg-slate-50/50">
                                         <div className="h-14 w-14 rounded-full overflow-hidden relative border-2 border-white shadow-sm shrink-0">
                                             {teacher.imageUrl ? (
                                                 <Image
@@ -252,7 +241,6 @@ export default async function CourseDetailsPage({
                         </div>
                     </div>
 
-                    {/* --- RIGHT COLUMN: CHECKOUT CARD (Sticky) --- */}
                     <div className="lg:col-span-1 relative">
                         <div className="sticky top-24 flex flex-col gap-6">
                             <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-lg flex flex-col gap-y-6">
@@ -264,8 +252,6 @@ export default async function CourseDetailsPage({
                                         height={600}
                                     />
                                 </div>
-
-                                {/* Price Area */}
                                 <div>
                                     <div className="flex items-end gap-x-2 mb-2">
                                         <div className="text-3xl font-extrabold text-slate-900">
@@ -276,7 +262,7 @@ export default async function CourseDetailsPage({
                                         {course.originalPrice && (
                                             <div className="text-slate-400 line-through font-medium mb-1.5">
                                                 {formatPrice(
-                                                    course.originalPrice
+                                                    course.originalPrice,
                                                 )}
                                             </div>
                                         )}
@@ -289,7 +275,6 @@ export default async function CourseDetailsPage({
                                     )}
                                 </div>
 
-                                {/* Enrollment Button */}
                                 {hasPurchased ? (
                                     <Link href="/dashboard">
                                         <Button className="w-full bg-black text-white hover:bg-slate-800 text-lg py-6 font-bold shadow-lg">
@@ -303,7 +288,6 @@ export default async function CourseDetailsPage({
                                     />
                                 )}
 
-                                {/* Guarantees */}
                                 <div className="space-y-3 pt-4 border-t border-slate-100">
                                     <div className="flex items-center gap-x-2 text-sm text-slate-600">
                                         <MonitorPlay className="h-4 w-4" />

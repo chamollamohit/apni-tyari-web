@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { db } from "@/lib/db";
 
-// Create Subject
+
 export async function POST(
     req: Request,
     { params }: { params: Promise<{ courseId: string }> }
@@ -27,7 +27,7 @@ export async function POST(
             );
         }
 
-        // 1. Find the last subject to determine the new position
+
         const lastSubject = await db.subject.findFirst({
             where: { courseId: courseId },
             orderBy: { position: "desc" },
@@ -35,7 +35,7 @@ export async function POST(
 
         const newPosition = lastSubject ? lastSubject.position + 1 : 1;
 
-        // 2. Create the Subject
+
         const subject = await db.subject.create({
             data: {
                 title,

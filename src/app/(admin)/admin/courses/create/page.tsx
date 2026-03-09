@@ -40,16 +40,14 @@ export default function CreateCoursePage() {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            // 1. Call the API
             const response = await axios.post("/api/courses", values);
 
-            // 2. Redirect to the Edit Page using the new ID
             router.push(`/admin/courses/${response.data.id}`);
             toast.success("Course created");
         } catch (error) {
             if (error instanceof AxiosError) {
                 toast.error(
-                    error.response?.data.message || "Something went wrong"
+                    error.response?.data.message || "Something went wrong",
                 );
             } else {
                 toast.error("Network error. Please check your connection");
@@ -69,8 +67,7 @@ export default function CreateCoursePage() {
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-8 mt-8"
-                    >
+                        className="space-y-8 mt-8">
                         <FormField
                             control={form.control}
                             name="title"
@@ -94,14 +91,15 @@ export default function CreateCoursePage() {
 
                         <div className="flex items-center gap-x-2">
                             <Link href="/admin/courses">
-                                <Button type="button" variant="ghost">
+                                <Button
+                                    type="button"
+                                    variant="ghost">
                                     Cancel
                                 </Button>
                             </Link>
                             <Button
                                 type="submit"
-                                disabled={!isValid || isSubmitting}
-                            >
+                                disabled={!isValid || isSubmitting}>
                                 Continue
                             </Button>
                         </div>

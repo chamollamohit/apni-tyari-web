@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
-import { db } from "@/lib/db";
 import { getCourseContent } from "@/services/get-course-content";
 import { ArrowLeft, BookOpen, ChevronRight, Layers } from "lucide-react";
 import Link from "next/link";
@@ -19,7 +18,6 @@ export default async function CourseLearnPage({
 
     if (!session?.user?.id) return redirect("/");
 
-    // 1. Fetch Course
     const course = await getCourseContent(courseId, session.user.id);
 
     if (!course) return redirect("/dashboard");
@@ -87,7 +85,6 @@ export default async function CourseLearnPage({
                                         chapters covering the complete syllabus.
                                     </p>
 
-                                    {/* Progress Section */}
                                     <div className="mt-auto space-y-3">
                                         <div className="flex justify-between text-xs font-semibold text-slate-500">
                                             <span>Progress</span>

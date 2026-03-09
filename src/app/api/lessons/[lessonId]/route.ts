@@ -17,7 +17,7 @@ export async function DELETE(
                 { status: 401 }
             );
         }
-        // Delete a single lesson
+
         const lesson = await db.lesson.delete({
             where: { id: lessonId },
         });

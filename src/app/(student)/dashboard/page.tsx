@@ -18,7 +18,6 @@ export default async function DashboardPage() {
 
     return (
         <div className="p-6 max-w-7xl mx-auto space-y-8">
-            {/* 1. Welcome Header */}
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-900">
@@ -30,7 +29,6 @@ export default async function DashboardPage() {
                 </div>
             </div>
 
-            {/* 2. Stats Row */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="p-4 border rounded-lg bg-white shadow-sm flex items-center gap-x-4">
                     <div className="p-3 bg-slate-100 rounded-full text-slate-700">
@@ -60,7 +58,6 @@ export default async function DashboardPage() {
                 </div>
             </div>
 
-            {/* 3. Course List */}
             <div className="space-y-4">
                 <h2 className="text-xl font-bold text-slate-900">My Courses</h2>
 

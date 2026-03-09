@@ -20,7 +20,6 @@ export default async function LessonIdPage({
 
     if (!session?.user?.id) return redirect("/");
 
-    // 1. Fetch Current Lesson
     const lesson = await db.lesson.findUnique({
         where: {
             id: lessonId,
@@ -35,7 +34,6 @@ export default async function LessonIdPage({
 
     if (!lesson) return redirect(`/courses/${courseId}/learn`);
 
-    // 2. Prevent accessing future lessons
     if (isFuture(new Date(lesson.date))) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-4 px-4">
@@ -59,9 +57,10 @@ export default async function LessonIdPage({
                     </p>
                 </div>
                 <Link
-                    href={`/courses/${courseId}/learn/subject/${lesson.chapter.subjectId}`}
-                >
-                    <Button variant="outline" className="mt-4">
+                    href={`/courses/${courseId}/learn/subject/${lesson.chapter.subjectId}`}>
+                    <Button
+                        variant="outline"
+                        className="mt-4">
                         <ChevronLeft className="h-4 w-4 mr-2" />
                         Back to Schedule
                     </Button>
@@ -69,8 +68,6 @@ export default async function LessonIdPage({
             </div>
         );
     }
-
-    // 3. Fetching Next Lesson
 
     const nextLesson = await db.lesson.findFirst({
         where: {
@@ -91,18 +88,15 @@ export default async function LessonIdPage({
 
     return (
         <div className="flex flex-col max-w-5xl mx-auto pb-20">
-            {/* 1. Header / Navigation */}
             <div className="px-6 pt-6 pb-4">
                 <Link
                     href={`/courses/${courseId}/learn/subject/${lesson.chapter.subjectId}`}
-                    className="inline-flex items-center text-sm font-medium text-slate-500 hover:text-slate-900 transition"
-                >
+                    className="inline-flex items-center text-sm font-medium text-slate-500 hover:text-slate-900 transition">
                     <ChevronLeft className="h-4 w-4 mr-1" />
                     Back to Schedule
                 </Link>
             </div>
 
-            {/* 2. Video Player */}
             <div className="px-4 md:px-6">
                 <div className="rounded-xl overflow-hidden border border-slate-200 bg-black shadow-lg">
                     <div className="relative aspect-video">
@@ -114,9 +108,7 @@ export default async function LessonIdPage({
                 </div>
             </div>
 
-            {/* 3. Lesson Info */}
             <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/*  Title & Notes */}
                 <div className="lg:col-span-2 space-y-4">
                     <h1 className="text-2xl font-bold text-slate-900 leading-tight">
                         {lesson.title}
@@ -142,8 +134,7 @@ export default async function LessonIdPage({
                                 href={lesson.notesUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center w-full md:w-fit gap-x-3 p-3 text-sm text-slate-700 hover:text-blue-700 bg-white border border-slate-200 hover:border-blue-300 rounded-lg transition-all group"
-                            >
+                                className="flex items-center w-full md:w-fit gap-x-3 p-3 text-sm text-slate-700 hover:text-blue-700 bg-white border border-slate-200 hover:border-blue-300 rounded-lg transition-all group">
                                 <div className="p-2 bg-slate-100 group-hover:bg-blue-50 rounded-md text-slate-500 group-hover:text-blue-600 transition">
                                     <FileText className="h-5 w-5" />
                                 </div>
@@ -160,7 +151,6 @@ export default async function LessonIdPage({
                     )}
                 </div>
 
-                {/* Lesson Complete Button */}
                 <div className="lg:col-span-1 flex flex-col justify-start lg:items-end gap-4">
                     <LessonCompleteButton
                         courseId={courseId}
@@ -168,7 +158,7 @@ export default async function LessonIdPage({
                         isCompleted={!!isCompleted}
                         nextLessonId={nextLesson?.id}
                     />
-                    {/* Next Session */}
+
                     {nextLesson && (
                         <div className="text-xs text-slate-400 text-right hidden lg:block">
                             Next: {nextLesson.title}

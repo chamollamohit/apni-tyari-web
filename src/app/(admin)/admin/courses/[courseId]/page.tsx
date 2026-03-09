@@ -4,7 +4,6 @@ import { authOptions } from "@/auth";
 import { db } from "@/lib/db";
 import {
     LayoutDashboard,
-    CircleDollarSign,
     ListFilter,
     BookOpen,
     IndianRupee,
@@ -35,7 +34,6 @@ export default async function CourseIdPage({
         return redirect("/");
     }
 
-    // 1. Fetch Course
     const course = await db.course.findUnique({
         where: { id: courseId },
         include: {
@@ -49,7 +47,6 @@ export default async function CourseIdPage({
         return redirect("/admin/courses");
     }
 
-    // 2. Completion Logic
     const requiredFields = [
         course.title,
         course.description,
@@ -83,7 +80,6 @@ export default async function CourseIdPage({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
-                {/* --- LEFT COLUMN: DETAILS --- */}
                 <div>
                     <div className="flex items-center gap-x-2">
                         <div className="p-2 w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
@@ -91,12 +87,18 @@ export default async function CourseIdPage({
                         </div>
                         <h2 className="text-xl font-semibold">Basic Details</h2>
                     </div>
-                    <TitleForm initialData={course} courseId={course.id} />
+                    <TitleForm
+                        initialData={course}
+                        courseId={course.id}
+                    />
                     <DescriptionForm
                         initialData={course}
                         courseId={course.id}
                     />
-                    <ImageForm initialData={course} courseId={course.id} />
+                    <ImageForm
+                        initialData={course}
+                        courseId={course.id}
+                    />
 
                     <div className="flex items-center gap-x-2 mt-12">
                         <div className="p-2 w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
@@ -104,13 +106,17 @@ export default async function CourseIdPage({
                         </div>
                         <h2 className="text-xl font-semibold">Metadata</h2>
                     </div>
-                    <VideoForm initialData={course} courseId={course.id} />
-                    <MetadataForm initialData={course} courseId={course.id} />
+                    <VideoForm
+                        initialData={course}
+                        courseId={course.id}
+                    />
+                    <MetadataForm
+                        initialData={course}
+                        courseId={course.id}
+                    />
                 </div>
 
-                {/* --- RIGHT COLUMN: CURRICULUM & PRICE --- */}
                 <div className="space-y-6">
-                    {/* 1. Subjects (The Curriculum Container) */}
                     <div>
                         <div className="flex items-center gap-x-2">
                             <div className="p-2 w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
@@ -124,7 +130,6 @@ export default async function CourseIdPage({
                         />
                     </div>
 
-                    {/* 2. Pricing */}
                     <div>
                         <div className="flex items-center gap-x-2">
                             <div className="p-2 w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
@@ -132,7 +137,10 @@ export default async function CourseIdPage({
                             </div>
                             <h2 className="text-xl font-semibold">Pricing</h2>
                         </div>
-                        <PriceForm initialData={course} courseId={course.id} />
+                        <PriceForm
+                            initialData={course}
+                            courseId={course.id}
+                        />
                     </div>
                 </div>
             </div>

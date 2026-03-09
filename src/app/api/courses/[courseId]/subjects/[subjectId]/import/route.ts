@@ -34,7 +34,7 @@ export async function POST(
             );
         }
 
-        // 1. PRE-FETCH DATA of the Teacher Availble in the Subject
+
         const subjectTeachers = await db.teacher.findMany({
             where: {
                 subjects: {
@@ -53,7 +53,7 @@ export async function POST(
             {} as Record<string, string>
         );
 
-        // Validate all teachers exist BEFORE starting transaction
+
         const invalidEmails = new Set<string>();
         rows.forEach((row) => {
             if (!teacherObj[row.TeacherEmail])
@@ -89,11 +89,11 @@ export async function POST(
                 ? existingChapters[existingChapters.length - 1].position + 1
                 : 1;
 
-        // if anything fails it will fallback to original
+
         await db.$transaction(
             async (tx) => {
                 for (const row of rows) {
-                    // A. Handle Chapter (Create if missing)
+
                     let chapterId = chapterObj[row.Chapter];
 
                     if (!chapterId) {
@@ -109,7 +109,7 @@ export async function POST(
                         chapterObj[row.Chapter] = newChapter.id;
                     }
 
-                    // B. Create Lesson
+
 
                     await tx.lesson.create({
                         data: {
