@@ -11,7 +11,6 @@ import {
     CheckCircle2,
     GraduationCap,
     Target,
-    PlayCircle,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -165,7 +164,7 @@ export default async function CourseDetailsPage({
                             <div className="aspect-video rounded-lg overflow-hidden border border-slate-100 bg-slate-900 relative">
                                 {course.promotionalVideoUrl ? (
                                     <VideoPlayer
-                                        title={course.title}
+                                        source="YOUTUBE"
                                         url={course.promotionalVideoUrl}
                                     />
                                 ) : (
@@ -183,9 +182,9 @@ export default async function CourseDetailsPage({
                             <h2 className="text-xl font-bold text-slate-900">
                                 About this course
                             </h2>
-                            <p className="text-slate-600 leading-relaxed whitespace-pre-wrap text-sm md:text-base">
+                            <div className="text-slate-600 leading-relaxed whitespace-pre-wrap text-sm md:text-base">
                                 <Preview value={course.description || ""} />
-                            </p>
+                            </div>
                         </div>
 
                         <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-6">

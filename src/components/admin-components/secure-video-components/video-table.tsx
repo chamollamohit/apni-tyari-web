@@ -14,7 +14,6 @@ import { Play } from "lucide-react";
 import { formatBytes } from "@/lib/format";
 import { useState } from "react";
 import { VideoPlayerModal } from "./video-player-modal";
-import axios from "axios";
 import { Video } from "@prisma/client";
 
 interface VideoTableProps {
@@ -23,27 +22,19 @@ interface VideoTableProps {
 
 export const VideoTable = ({ videos }: VideoTableProps) => {
     const [videoModal, setVideoModal] = useState<{
-        url: string;
+        key: string;
     } | null>(null);
     const onWatch = async (key: string) => {
-        setVideoModal({ url: "" });
-
-        const response = await axios.post("/api/videos/playback", {
-            s3Key: key,
-        });
-
-        setVideoModal({
-            url: response.data.url,
-        });
+        setVideoModal({ key });
     };
 
     return (
-        <div className="">
+        <div>
             <div className="flex items-end">
                 <VideoPlayerModal
                     isOpen={!!videoModal}
                     onClose={() => setVideoModal(null)}
-                    videoUrl={videoModal?.url || null}
+                    videoKey={videoModal?.key || null}
                 />
             </div>
 

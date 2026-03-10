@@ -58,7 +58,6 @@ export default async function SubjectSchedulePage({
     if (!subject) return redirect(`/courses/${courseId}/learn`);
 
     const allLessons = subject.chapters.flatMap((c) => c.lessons);
-    console.log(allLessons);
 
     const completedCount = allLessons.filter(
         (l) => l.userProgress?.[0]?.isCompleted,

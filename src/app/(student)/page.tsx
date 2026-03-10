@@ -18,7 +18,6 @@ export default async function LandingPage() {
     const user = session?.user;
     return (
         <div className="flex flex-col min-h-screen bg-white">
-            {/* 1. HERO SECTION */}
             <section className="relative py-20 lg:py-25 px-6 border-b border-slate-100 overflow-hidden">
                 <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-slate-100 via-transparent to-transparent opacity-70"></div>
 
@@ -49,8 +48,7 @@ export default async function LandingPage() {
                         <Link href="/search">
                             <Button
                                 size="lg"
-                                className="h-14 px-8 text-lg bg-black text-white hover:bg-slate-800 rounded-full shadow-lg hover:shadow-xl transition-all"
-                            >
+                                className="h-14 px-8 text-lg bg-black text-white hover:bg-slate-800 rounded-full shadow-lg hover:shadow-xl transition-all">
                                 Explore Courses
                             </Button>
                         </Link>
@@ -59,8 +57,7 @@ export default async function LandingPage() {
                                 <Button
                                     size="lg"
                                     variant="outline"
-                                    className="h-14 px-8 text-lg border-slate-300 text-slate-700 hover:bg-slate-50 rounded-full"
-                                >
+                                    className="h-14 px-8 text-lg border-slate-300 text-slate-700 hover:bg-slate-50 rounded-full">
                                     Go to Dashboard{" "}
                                     <ArrowRight className="ml-2 h-5 w-5" />
                                 </Button>
@@ -70,15 +67,13 @@ export default async function LandingPage() {
                                 <Button
                                     size="lg"
                                     variant="outline"
-                                    className="h-14 px-8 text-lg border-slate-300 text-slate-700 hover:bg-slate-50 rounded-full"
-                                >
+                                    className="h-14 px-8 text-lg border-slate-300 text-slate-700 hover:bg-slate-50 rounded-full">
                                     Start for Free
                                 </Button>
                             </Link>
                         )}
                     </div>
 
-                    {/* Social Proof Text */}
                     <p className="text-sm text-slate-400 pt-4">
                         Trusted by{" "}
                         <span className="font-bold text-slate-900">
@@ -89,7 +84,6 @@ export default async function LandingPage() {
                 </div>
             </section>
 
-            {/* 2. EXAM CATEGORIES */}
             <section className="py-15 px-6 bg-slate-50/50">
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-12">
@@ -102,11 +96,9 @@ export default async function LandingPage() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {/* Card 1: JEE */}
                         <Link
                             href="/search?categoryId=JEE"
-                            className="group relative overflow-hidden rounded-2xl bg-white border border-slate-200 p-8 hover:shadow-xl hover:border-slate-300 transition-all"
-                        >
+                            className="group relative overflow-hidden rounded-2xl bg-white border border-slate-200 p-8 hover:shadow-xl hover:border-slate-300 transition-all">
                             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition">
                                 <Target className="h-32 w-32" />
                             </div>
@@ -127,11 +119,9 @@ export default async function LandingPage() {
                             </div>
                         </Link>
 
-                        {/* Card 2: NEET */}
                         <Link
                             href="/search?categoryId=NEET"
-                            className="group relative overflow-hidden rounded-2xl bg-white border border-slate-200 p-8 hover:shadow-xl hover:border-slate-300 transition-all"
-                        >
+                            className="group relative overflow-hidden rounded-2xl bg-white border border-slate-200 p-8 hover:shadow-xl hover:border-slate-300 transition-all">
                             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition">
                                 <Trophy className="h-32 w-32" />
                             </div>
@@ -152,11 +142,9 @@ export default async function LandingPage() {
                             </div>
                         </Link>
 
-                        {/* Card 3: Foundation */}
                         <Link
                             href="/search?categoryId=FOUNDATION"
-                            className="group relative overflow-hidden rounded-2xl bg-white border border-slate-200 p-8 hover:shadow-xl hover:border-slate-300 transition-all"
-                        >
+                            className="group relative overflow-hidden rounded-2xl bg-white border border-slate-200 p-8 hover:shadow-xl hover:border-slate-300 transition-all">
                             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition">
                                 <BookOpen className="h-32 w-32" />
                             </div>
@@ -180,7 +168,6 @@ export default async function LandingPage() {
                 </div>
             </section>
 
-            {/* 3. (Why Apni Tyari?) */}
             <section className="py-24 px-6 max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                     <div>
@@ -233,7 +220,6 @@ export default async function LandingPage() {
                         </div>
                     </div>
 
-                    {/* Visual Element */}
                     <div className="bg-slate-100 rounded-2xl p-8 border border-slate-200">
                         <div className="grid grid-cols-2 gap-4">
                             <div className="bg-white p-6 rounded-xl shadow-sm">

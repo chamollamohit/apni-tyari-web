@@ -1,24 +1,23 @@
 "use client";
-import {} from "plyr";
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
+import { VideoPlayer } from "@/components/user-components/course-components/video-player";
 import { Loader2 } from "lucide-react";
-import { VideoPlayer } from "./video-player";
 
 interface VideoPlayerModalProps {
     isOpen: boolean;
     onClose: () => void;
-    videoUrl: string | null;
+    videoKey: string | null;
 }
 
 export const VideoPlayerModal = ({
     isOpen,
     onClose,
-    videoUrl,
+    videoKey,
 }: VideoPlayerModalProps) => {
     return (
         <Dialog
@@ -32,13 +31,16 @@ export const VideoPlayerModal = ({
                 </DialogHeader>
 
                 <div className="relative aspect-video w-full flex items-center justify-center bg-black">
-                    {!videoUrl ? (
+                    {!videoKey ? (
                         <div className="flex flex-col items-center gap-2 text-white">
                             <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
                             <p className="text-sm">Generating secure link...</p>
                         </div>
                     ) : (
-                        <VideoPlayer videoSrc={videoUrl} />
+                        <VideoPlayer
+                            source="S3"
+                            url={videoKey}
+                        />
                     )}
                 </div>
             </DialogContent>

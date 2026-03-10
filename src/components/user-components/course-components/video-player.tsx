@@ -1,63 +1,111 @@
 "use client";
 
-import { useState } from "react";
-import { Loader2, AlertCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import { AlertCircle, Lock, Loader2 } from "lucide-react";
+import axios from "axios";
 import { cn } from "@/lib/utils";
+import "plyr-react/plyr.css";
+
+const Plyr = dynamic(() => import("plyr-react").then((mod) => mod.Plyr), {
+    ssr: false,
+});
 
 interface VideoPlayerProps {
-    url: string;
-    title?: string;
-    isLocked?: boolean;
+    url: string | null;
+    source: "S3" | "YOUTUBE";
+    lessonId?: string;
 }
 
-export const VideoPlayer = ({
-    url,
-    title,
-    isLocked = false,
-}: VideoPlayerProps) => {
-    const [isReady, setIsReady] = useState(false);
+export const VideoPlayer = ({ url, lessonId, source }: VideoPlayerProps) => {
+    const [resolvedUrl, setResolvedUrl] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(source === "S3");
 
-    const getVideoId = (link: string) => {
-        if (!link) return null;
+    useEffect(() => {
+        const getUrl = async () => {
+            if (source === "YOUTUBE") {
+                setResolvedUrl(url);
+                setIsLoading(false);
+                return;
+            }
+
+            try {
+                setIsLoading(true);
+                const response = await axios.post("/api/videos/playback", {
+                    s3Key: url,
+                    lessonId,
+                });
+
+                setResolvedUrl(response.data.url);
+            } catch (error) {
+                console.error("Failed to sign URL", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        getUrl();
+    }, [url, source, lessonId]);
+
+    const videoOptions = {
+        controls: [
+            "play-large",
+            "play",
+            "progress",
+            "current-time",
+            "mute",
+            "volume",
+            "settings",
+            "fullscreen",
+        ],
+        settings: ["quality", "speed"],
+    };
+
+    const getYoutubeId = (link: string) => {
         const regex =
             /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
         const match = link.match(regex);
         return match ? match[1] : null;
     };
 
-    const videoId = getVideoId(url);
+    const plyrSource =
+        source === "YOUTUBE" && resolvedUrl
+            ? {
+                  type: "video" as const,
+                  sources: [
+                      {
+                          src: getYoutubeId(resolvedUrl) || "",
+                          provider: "youtube" as const,
+                      },
+                  ],
+              }
+            : {
+                  type: "video" as const,
+                  sources: [{ src: resolvedUrl || "", type: "video/mp4" }],
+              };
 
     return (
         <div
             className={cn(
-                "relative aspect-video rounded-xl overflow-hidden bg-slate-900 border border-slate-800 shadow-lg",
-                isLocked && "bg-slate-100 border-slate-200",
+                "relative aspect-video rounded-xl overflow-hidden bg-black border border-slate-800 shadow-lg",
             )}>
-            {!videoId ? (
+            {isLoading ? (
+                <div className="absolute inset-0 flex items-center justify-center bg-slate-900">
+                    <Loader2 className="h-8 w-8 animate-spin text-white" />
+                </div>
+            ) : !resolvedUrl ? (
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-400">
                     <AlertCircle className="h-10 w-10 mb-2" />
-                    <p className="text-sm">Video unavailable</p>
+                    <p className="text-sm">Video not found</p>
                 </div>
             ) : (
-                <>
-                    {!isReady && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-slate-900 z-10">
-                            <Loader2 className="h-8 w-8 animate-spin text-white" />
-                        </div>
-                    )}
-
-                    <iframe
-                        className={cn(
-                            "w-full h-full absolute top-0 left-0 transition-opacity duration-500",
-                            isReady ? "opacity-100" : "opacity-0",
-                        )}
-                        src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&autohide=1&showinfo=0`}
-                        title={title || "Video Player"}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        onLoad={() => setIsReady(true)}
+                <div className="w-full h-full">
+                    <Plyr
+                        key={resolvedUrl}
+                        source={plyrSource}
+                        options={videoOptions}
                     />
-                </>
+                </div>
             )}
         </div>
     );

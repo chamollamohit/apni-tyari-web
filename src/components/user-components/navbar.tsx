@@ -7,7 +7,6 @@ import { useState } from "react";
 import {
     LogOut,
     LayoutDashboard,
-    User,
     Menu,
     X,
     BookOpen,
@@ -31,6 +30,7 @@ import Image from "next/image";
 export const Navbar = () => {
     const { data: session } = useSession();
     const user = session?.user;
+
     const pathname = usePathname();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -87,10 +87,7 @@ export const Navbar = () => {
                             })}
                         </div>
                     </div>
-
-                    {/* RIGHT: Auth Actions */}
                     <div className="flex items-center gap-4">
-                        {/* Mobile Menu Button */}
                         <button
                             className="md:hidden text-slate-500"
                             onClick={() =>
@@ -99,7 +96,6 @@ export const Navbar = () => {
                             {isMobileMenuOpen ? <X /> : <Menu />}
                         </button>
 
-                        {/* Desktop Auth Buttons */}
                         <div className="hidden md:flex items-center gap-4">
                             {!user ? (
                                 <div className="flex items-center gap-2">
@@ -118,7 +114,6 @@ export const Navbar = () => {
                                 </div>
                             ) : (
                                 <div className="flex items-center gap-4">
-                                    {/* Admin Mode */}
                                     {user.role === "ADMIN" && (
                                         <Link href="/admin/dashboard">
                                             <Button
@@ -130,7 +125,6 @@ export const Navbar = () => {
                                         </Link>
                                     )}
 
-                                    {/* Profile Dropdown */}
                                     <DropdownMenu>
                                         <DropdownMenuTrigger className="focus:outline-none">
                                             <Avatar className="h-8 w-8 border border-slate-200 cursor-pointer hover:opacity-90 transition">
@@ -181,10 +175,8 @@ export const Navbar = () => {
                 </div>
             </div>
 
-            {/* MOBILE MENU DROPDOWN */}
             {isMobileMenuOpen && (
                 <div className="md:hidden border-t border-slate-200 bg-white absolute w-full left-0 shadow-lg max-h-[80vh] overflow-y-auto">
-                    {/* 1. Mobile User Profile Header */}
                     {user && (
                         <div className="p-4 bg-slate-50 border-b border-slate-100 flex items-center gap-3">
                             <Avatar className="h-10 w-10 border border-slate-200">
@@ -205,7 +197,6 @@ export const Navbar = () => {
                     )}
 
                     <div className="p-2 space-y-1">
-                        {/* 2. Navigation Links */}
                         {routes.map((route) => {
                             if (route.protected && !user) return null;
                             return (
@@ -225,7 +216,6 @@ export const Navbar = () => {
                             );
                         })}
 
-                        {/* 3. Admin Mode (Mobile) */}
                         {user?.role === "ADMIN" && (
                             <Link
                                 href="/admin/dashboard"
@@ -236,7 +226,6 @@ export const Navbar = () => {
                             </Link>
                         )}
 
-                        {/* 4. Auth Buttons */}
                         {user ? (
                             <>
                                 <Separator className="my-2" />

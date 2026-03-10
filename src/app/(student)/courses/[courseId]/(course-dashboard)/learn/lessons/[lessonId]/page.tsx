@@ -101,8 +101,9 @@ export default async function LessonIdPage({
                 <div className="rounded-xl overflow-hidden border border-slate-200 bg-black shadow-lg">
                     <div className="relative aspect-video">
                         <VideoPlayer
+                            source={lesson.videoSource}
                             url={lesson.videoUrl || ""}
-                            title={lesson.title}
+                            lessonId={lesson.id}
                         />
                     </div>
                 </div>
