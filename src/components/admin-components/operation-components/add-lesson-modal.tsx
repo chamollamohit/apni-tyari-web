@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -81,12 +80,10 @@ export const AddLessonModal = ({
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            // 1. Merge Date & Time
             const dateTime = new Date(values.date);
             const [hours, minutes] = values.time.split(":").map(Number);
             dateTime.setHours(hours, minutes);
 
-            // 2. Call API
             await axios.post(`/api/lessons`, {
                 title: values.title,
                 chapterId: values.chapterId,
@@ -101,7 +98,7 @@ export const AddLessonModal = ({
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 toast.error(
-                    error.response?.data?.message || "Failed to schedule"
+                    error.response?.data?.message || "Failed to schedule",
                 );
             } else {
                 toast.error("Something went wrong");
@@ -110,7 +107,9 @@ export const AddLessonModal = ({
     };
 
     return (
-        <Dialog open={isOpen} onOpenChange={onClose}>
+        <Dialog
+            open={isOpen}
+            onOpenChange={onClose}>
             <DialogContent className="bg-white sm:max-w-[500px]">
                 <DialogHeader>
                     <DialogTitle>Schedule New Class</DialogTitle>
@@ -119,9 +118,7 @@ export const AddLessonModal = ({
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-4 py-2"
-                    >
-                        {/* Title */}
+                        className="space-y-4 py-2">
                         <FormField
                             control={form.control}
                             name="title"
@@ -141,7 +138,6 @@ export const AddLessonModal = ({
                             )}
                         />
 
-                        {/* Dropdowns Row */}
                         <div className="grid grid-cols-2 gap-4">
                             <FormField
                                 control={form.control}
@@ -151,8 +147,7 @@ export const AddLessonModal = ({
                                         <FormLabel>Chapter</FormLabel>
                                         <Select
                                             onValueChange={field.onChange}
-                                            defaultValue={field.value}
-                                        >
+                                            defaultValue={field.value}>
                                             <FormControl>
                                                 <SelectTrigger className="bg-white border-slate-300">
                                                     <SelectValue placeholder="Select Chapter" />
@@ -162,8 +157,7 @@ export const AddLessonModal = ({
                                                 {chapters.map((c) => (
                                                     <SelectItem
                                                         key={c.id}
-                                                        value={c.id}
-                                                    >
+                                                        value={c.id}>
                                                         {c.title}
                                                     </SelectItem>
                                                 ))}
@@ -182,8 +176,7 @@ export const AddLessonModal = ({
                                         <FormLabel>Faculty</FormLabel>
                                         <Select
                                             onValueChange={field.onChange}
-                                            defaultValue={field.value}
-                                        >
+                                            defaultValue={field.value}>
                                             <FormControl>
                                                 <SelectTrigger className="bg-white border-slate-300">
                                                     <SelectValue placeholder="Select Teacher" />
@@ -193,8 +186,7 @@ export const AddLessonModal = ({
                                                 {teachers.map((t) => (
                                                     <SelectItem
                                                         key={t.id}
-                                                        value={t.id}
-                                                    >
+                                                        value={t.id}>
                                                         {t.name}
                                                     </SelectItem>
                                                 ))}
@@ -206,7 +198,6 @@ export const AddLessonModal = ({
                             />
                         </div>
 
-                        {/* Date & Time Row */}
                         <div className="grid grid-cols-2 gap-4">
                             <FormField
                                 control={form.control}
@@ -222,13 +213,12 @@ export const AddLessonModal = ({
                                                         className={cn(
                                                             "w-full pl-3 text-left font-normal bg-white border-slate-300",
                                                             !field.value &&
-                                                                "text-muted-foreground"
-                                                        )}
-                                                    >
+                                                                "text-muted-foreground",
+                                                        )}>
                                                         {field.value ? (
                                                             format(
                                                                 field.value,
-                                                                "PPP"
+                                                                "PPP",
                                                             )
                                                         ) : (
                                                             <span>
@@ -241,8 +231,7 @@ export const AddLessonModal = ({
                                             </PopoverTrigger>
                                             <PopoverContent
                                                 className="w-auto p-0"
-                                                align="start"
-                                            >
+                                                align="start">
                                                 <Calendar
                                                     mode="single"
                                                     selected={field.value}
@@ -282,8 +271,7 @@ export const AddLessonModal = ({
                         <Button
                             disabled={isSubmitting}
                             type="submit"
-                            className="w-full bg-black text-white hover:bg-slate-800"
-                        >
+                            className="w-full bg-black text-white hover:bg-slate-800">
                             Schedule Class
                         </Button>
                     </form>

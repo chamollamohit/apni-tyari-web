@@ -44,7 +44,7 @@ const routes = [
 export const Sidebar = () => {
     return (
         <div className="h-full border-r bg-white flex flex-col overflow-y-auto">
-            <div className="p-6 h-[80px] flex items-center border-b">
+            <div className="p-6 h-20 flex items-center border-b">
                 <Link href="/">
                     <div className="flex items-center gap-x-2">
                         <div className="hidden md:block relative h-20 w-45">
@@ -67,7 +67,6 @@ export const Sidebar = () => {
                 </Link>
             </div>
 
-            {/* 2. Navigation Routes */}
             <div className="flex flex-col w-full mt-4">
                 {routes.map((route) => (
                     <SidebarItem
@@ -79,7 +78,6 @@ export const Sidebar = () => {
                 ))}
             </div>
 
-            {/* 3.  Exit Button */}
             <div className="mt-auto p-4 border-t">
                 <Link href="/">
                     <Button

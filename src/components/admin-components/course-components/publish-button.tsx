@@ -62,18 +62,15 @@ export const PublishButton = ({
                 onClick={onClick}
                 disabled={disabled || isLoading}
                 variant="outline"
-                size="sm"
-            >
+                size="sm">
                 {isPublished ? "Unpublish" : "Publish"}
             </Button>
 
-            {/* Delete Button with Confirmation Logic */}
             <Button
                 size="sm"
                 variant="destructive"
                 disabled={isLoading}
-                onClick={onDelete}
-            >
+                onClick={onDelete}>
                 <Trash className="h-4 w-4" />
             </Button>
         </div>

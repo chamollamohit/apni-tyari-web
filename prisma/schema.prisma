@@ -45,6 +45,11 @@ enum Status {
   FAILED
 }
 
+enum VideoSource {
+  S3
+  YOUTUBE
+}
+
 model User {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
@@ -172,8 +177,9 @@ model Lesson {
   isPublished Boolean @default(false)
   isFree      Boolean @default(false)
 
-  videoUrl String?
-  notesUrl String?
+  videoSource VideoSource @default(YOUTUBE)
+  videoUrl    String?
+  notesUrl    String?
 
   date DateTime
 

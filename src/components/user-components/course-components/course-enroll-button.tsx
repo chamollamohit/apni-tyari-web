@@ -64,19 +64,18 @@ export const CourseEnrollButton = ({
             setIsLoading(true);
 
             const response = await axios.post(
-                `/api/courses/${courseId}/checkout`
+                `/api/courses/${courseId}/checkout`,
             );
             const data = response.data;
 
             const res = await loadScript(
-                "https://checkout.razorpay.com/v1/checkout.js"
+                "https://checkout.razorpay.com/v1/checkout.js",
             );
             if (!res) {
                 toast.error("Razorpay SDK failed to load");
                 return;
             }
 
-            // RazorPay Options
             const options: RazorpayOptions = {
                 key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
                 amount: data.amount,
@@ -85,7 +84,6 @@ export const CourseEnrollButton = ({
                 description: data.courseName,
                 order_id: data.orderId,
 
-                // RazorPay Handler
                 handler: async function (response: RazorpayResponse) {
                     try {
                         await axios.post(`/api/courses/${courseId}/verify`, {
@@ -119,7 +117,7 @@ export const CourseEnrollButton = ({
                     router.push(`/login?callbackUrl=${pathname}`);
                 } else {
                     toast.error(
-                        error.response?.data?.message || "Something went wrong"
+                        error.response?.data?.message || "Something went wrong",
                     );
                 }
             } else {
@@ -135,8 +133,7 @@ export const CourseEnrollButton = ({
             onClick={onCheckout}
             disabled={isLoading}
             size="lg"
-            className="w-full bg-black text-white hover:bg-slate-800 text-lg py-6 font-bold shadow-lg"
-        >
+            className="w-full bg-black text-white hover:bg-slate-800 text-lg py-6 font-bold shadow-lg">
             {isLoading ? "Processing..." : `Enroll for ${formatPrice(price)}`}
         </Button>
     );

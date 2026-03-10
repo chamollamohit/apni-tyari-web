@@ -4,13 +4,7 @@ import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import {
-    Loader2,
-    PlusCircle,
-    BookOpen,
-    Pencil,
-    MoreVertical,
-} from "lucide-react";
+import { PlusCircle, BookOpen, Pencil } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -70,7 +64,6 @@ export const SubjectsForm = ({ initialData, courseId }: SubjectsFormProps) => {
     };
 
     const onEdit = (id: string) => {
-        // Redirects to the Subject Manager
         router.push(`/admin/courses/${courseId}/subjects/${id}`);
     };
 
@@ -78,7 +71,10 @@ export const SubjectsForm = ({ initialData, courseId }: SubjectsFormProps) => {
         <div className="mt-6 border bg-slate-100 rounded-md p-4">
             <div className="font-medium flex items-center justify-between">
                 Course Subjects
-                <Button onClick={toggleCreating} variant="ghost" size="sm">
+                <Button
+                    onClick={toggleCreating}
+                    variant="ghost"
+                    size="sm">
                     {isCreating ? (
                         <>Cancel</>
                     ) : (
@@ -94,8 +90,7 @@ export const SubjectsForm = ({ initialData, courseId }: SubjectsFormProps) => {
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-4 mt-4"
-                    >
+                        className="space-y-4 mt-4">
                         <FormField
                             control={form.control}
                             name="title"
@@ -116,8 +111,7 @@ export const SubjectsForm = ({ initialData, courseId }: SubjectsFormProps) => {
                         <Button
                             disabled={!isValid || isSubmitting}
                             type="submit"
-                            className="bg-black text-white hover:bg-slate-800"
-                        >
+                            className="bg-black text-white hover:bg-slate-800">
                             Create
                         </Button>
                     </form>
@@ -128,19 +122,16 @@ export const SubjectsForm = ({ initialData, courseId }: SubjectsFormProps) => {
                 <div
                     className={cn(
                         "text-sm mt-2",
-                        !initialData.subjects.length && "text-slate-500 italic"
-                    )}
-                >
+                        !initialData.subjects.length && "text-slate-500 italic",
+                    )}>
                     {!initialData.subjects.length && "No subjects added yet."}
 
                     <div className="flex flex-col gap-y-2">
                         {initialData.subjects.map((subject) => (
                             <div
                                 key={subject.id}
-                                className="flex items-center justify-between bg-white border border-slate-200 rounded-md p-3 text-sm shadow-sm hover:shadow-md transition"
-                            >
+                                className="flex items-center justify-between bg-white border border-slate-200 rounded-md p-3 text-sm shadow-sm hover:shadow-md transition">
                                 <div className="flex items-center gap-x-3">
-                                    {/* Minimal Icon Style: Slate/Black instead of Blue */}
                                     <div className="p-2 bg-slate-100 text-slate-700 rounded-md">
                                         <BookOpen className="h-4 w-4" />
                                     </div>
@@ -150,13 +141,11 @@ export const SubjectsForm = ({ initialData, courseId }: SubjectsFormProps) => {
                                 </div>
 
                                 <div className="flex items-center gap-x-2">
-                                    {/* Edit Button */}
                                     <Button
                                         onClick={() => onEdit(subject.id)}
                                         variant="ghost"
                                         size="sm"
-                                        className="hover:bg-slate-100"
-                                    >
+                                        className="hover:bg-slate-100">
                                         <Pencil className="h-4 w-4 mr-2" />
                                         Manage
                                     </Button>

@@ -15,7 +15,6 @@ export const FileUpload = ({ onChange, value }: FileUploadProps) => {
     const fileType = value?.split(".").pop()?.toLowerCase();
     const [isUploading, setIsUploading] = useState(false);
 
-    // Checking if the file is a PDF or an Image
     const isPDF = fileType === "pdf";
     const isImage = ["jpg", "jpeg", "png"].includes(fileType || "");
 
@@ -23,7 +22,6 @@ export const FileUpload = ({ onChange, value }: FileUploadProps) => {
         const file = e.target.files?.[0];
         if (!file) return;
 
-        // 1. Validation
         if (file.size > 10 * 1024 * 1024) {
             return toast.error("File is too large (Max 10MB)");
         }
@@ -37,10 +35,9 @@ export const FileUpload = ({ onChange, value }: FileUploadProps) => {
             const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
             const response = await axios.post(
                 `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
-                formData
+                formData,
             );
 
-            // 3. Success
             onChange(response.data.secure_url);
             toast.success("Upload complete");
         } catch (error) {
@@ -51,7 +48,6 @@ export const FileUpload = ({ onChange, value }: FileUploadProps) => {
         }
     };
 
-    // 1. IMAGE PREVIEW
     if (value && isImage) {
         return (
             <div className="relative h-40 w-40">
@@ -64,15 +60,13 @@ export const FileUpload = ({ onChange, value }: FileUploadProps) => {
                 <button
                     onClick={() => onChange("")}
                     className="bg-rose-500 text-white p-1 rounded-full absolute -top-2 -right-2 shadow-sm"
-                    type="button"
-                >
+                    type="button">
                     <X className="h-4 w-4" />
                 </button>
             </div>
         );
     }
 
-    // 2. PDF PREVIEW (File Icon)
     if (value && isPDF) {
         return (
             <div className="relative flex items-center p-2 mt-2 rounded-md bg-slate-100 border text-slate-800 w-fit">
@@ -81,22 +75,19 @@ export const FileUpload = ({ onChange, value }: FileUploadProps) => {
                     href={value}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm line-clamp-1 underline hover:text-blue-600"
-                >
+                    className="text-sm line-clamp-1 underline hover:text-blue-600">
                     View PDF
                 </a>
                 <button
                     onClick={() => onChange("")}
                     className="bg-rose-500 text-white p-1 rounded-full absolute -top-2 -right-2 shadow-sm"
-                    type="button"
-                >
+                    type="button">
                     <X className="h-4 w-4" />
                 </button>
             </div>
         );
     }
 
-    // 3. UPLOAD BUTTON
     return (
         <div className="flex items-center gap-4">
             <label className="cursor-pointer">

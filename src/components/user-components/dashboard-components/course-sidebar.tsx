@@ -8,7 +8,7 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
-import { CheckCircle, PlayCircle, Lock } from "lucide-react";
+import { CheckCircle, PlayCircle } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 
 interface CourseSidebarProps {
@@ -52,11 +52,9 @@ export const CourseSidebar = ({
                 <Accordion
                     type="multiple"
                     defaultValue={subjects.map((s) => s.id)}
-                    className="w-full"
-                >
+                    className="w-full">
                     {subjects.map((subject) => (
                         <div key={subject.id}>
-                            {/* Subject Header */}
                             <div className="px-4 py-3 bg-slate-50 border-y font-bold text-xs uppercase text-slate-500 tracking-wider">
                                 {subject.title}
                             </div>
@@ -65,8 +63,7 @@ export const CourseSidebar = ({
                                 <AccordionItem
                                     key={chapter.id}
                                     value={chapter.id}
-                                    className="border-b-0"
-                                >
+                                    className="border-b-0">
                                     <AccordionTrigger className="px-4 py-3 hover:bg-slate-50 hover:no-underline text-sm font-semibold text-slate-700">
                                         {chapter.title}
                                     </AccordionTrigger>
@@ -76,7 +73,7 @@ export const CourseSidebar = ({
                                                 lesson.userProgress?.[0]
                                                     ?.isCompleted;
                                             const isActive = pathname?.includes(
-                                                lesson.id
+                                                lesson.id,
                                             );
 
                                             return (
@@ -84,7 +81,7 @@ export const CourseSidebar = ({
                                                     key={lesson.id}
                                                     onClick={() =>
                                                         router.push(
-                                                            `/courses/${courseId}/learn/lessons/${lesson.id}`
+                                                            `/courses/${courseId}/learn/lessons/${lesson.id}`,
                                                         )
                                                     }
                                                     className={cn(
@@ -92,9 +89,8 @@ export const CourseSidebar = ({
                                                         isActive &&
                                                             "text-slate-700 bg-slate-100 border-r-4 border-slate-700",
                                                         isCompleted &&
-                                                            "text-emerald-700 hover:text-emerald-700"
-                                                    )}
-                                                >
+                                                            "text-emerald-700 hover:text-emerald-700",
+                                                    )}>
                                                     <div className="flex items-center gap-x-2 py-1">
                                                         {isCompleted ? (
                                                             <CheckCircle className="text-emerald-700 h-4 w-4" />
@@ -104,7 +100,7 @@ export const CourseSidebar = ({
                                                                     "h-4 w-4",
                                                                     isActive
                                                                         ? "text-slate-700"
-                                                                        : "text-slate-500"
+                                                                        : "text-slate-500",
                                                                 )}
                                                             />
                                                         )}

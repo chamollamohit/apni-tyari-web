@@ -71,7 +71,9 @@ export const DescriptionForm = ({
         <div className="mt-6 border bg-slate-100 rounded-md p-4">
             <div className="font-medium flex items-center justify-between">
                 Course Description
-                <Button onClick={toggleEdit} variant="ghost">
+                <Button
+                    onClick={toggleEdit}
+                    variant="ghost">
                     {isEditing ? (
                         <>Cancel</>
                     ) : (
@@ -83,25 +85,21 @@ export const DescriptionForm = ({
                 </Button>
             </div>
 
-            {/* View Mode */}
             {!isEditing && (
                 <p
                     className={cn(
                         "text-sm mt-2 whitespace-pre-wrap", // preserves line breaks
-                        !initialData.description && "text-slate-500 italic"
-                    )}
-                >
+                        !initialData.description && "text-slate-500 italic",
+                    )}>
                     <Preview value={initialData.description || ""} />
                 </p>
             )}
 
-            {/* Edit Mode */}
             {isEditing && (
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-4 mt-4"
-                    >
+                        className="space-y-4 mt-4">
                         <FormField
                             control={form.control}
                             name="description"
@@ -117,8 +115,7 @@ export const DescriptionForm = ({
                         <div className="flex items-center gap-x-2">
                             <Button
                                 disabled={!isValid || isSubmitting}
-                                type="submit"
-                            >
+                                type="submit">
                                 Save
                             </Button>
                         </div>

@@ -30,28 +30,28 @@ export const BatchSelector = ({ courses }: BatchSelectorProps) => {
 
     const onSubjectChange = (subjectId: string) => {
         router.push(
-            `/admin/operations?courseId=${selectedCourseId}&subjectId=${subjectId}`
+            `/admin/operations?courseId=${selectedCourseId}&subjectId=${subjectId}`,
         );
     };
 
     return (
         <div className="bg-white border rounded-lg p-6 mb-8 shadow-sm">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Course Dropdown */}
                 <div className="space-y-2">
                     <Label className="text-xs font-bold text-slate-500 uppercase">
                         Select Course
                     </Label>
                     <Select
                         value={selectedCourseId || ""}
-                        onValueChange={onCourseChange}
-                    >
+                        onValueChange={onCourseChange}>
                         <SelectTrigger className="bg-white border-slate-300 focus:ring-slate-900">
                             <SelectValue placeholder="Choose a Course..." />
                         </SelectTrigger>
                         <SelectContent>
                             {courses.map((course) => (
-                                <SelectItem key={course.id} value={course.id}>
+                                <SelectItem
+                                    key={course.id}
+                                    value={course.id}>
                                     {course.title}
                                 </SelectItem>
                             ))}
@@ -59,7 +59,6 @@ export const BatchSelector = ({ courses }: BatchSelectorProps) => {
                     </Select>
                 </div>
 
-                {/* Subject Dropdown */}
                 <div className="space-y-2">
                     <Label className="text-xs font-bold text-slate-500 uppercase">
                         Select Subject
@@ -67,8 +66,7 @@ export const BatchSelector = ({ courses }: BatchSelectorProps) => {
                     <Select
                         value={selectedSubjectId || ""}
                         onValueChange={onSubjectChange}
-                        disabled={!selectedCourseId}
-                    >
+                        disabled={!selectedCourseId}>
                         <SelectTrigger className="bg-white border-slate-300 focus:ring-slate-900">
                             <SelectValue
                                 placeholder={
@@ -80,7 +78,9 @@ export const BatchSelector = ({ courses }: BatchSelectorProps) => {
                         </SelectTrigger>
                         <SelectContent>
                             {selectedCourse?.subjects.map((subject) => (
-                                <SelectItem key={subject.id} value={subject.id}>
+                                <SelectItem
+                                    key={subject.id}
+                                    value={subject.id}>
                                     {subject.title}
                                 </SelectItem>
                             ))}

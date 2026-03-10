@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2, Lock, AlertCircle } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface VideoPlayerProps {
@@ -17,8 +17,6 @@ export const VideoPlayer = ({
 }: VideoPlayerProps) => {
     const [isReady, setIsReady] = useState(false);
 
-    // Helper: Extract YouTube ID
-
     const getVideoId = (link: string) => {
         if (!link) return null;
         const regex =
@@ -33,19 +31,15 @@ export const VideoPlayer = ({
         <div
             className={cn(
                 "relative aspect-video rounded-xl overflow-hidden bg-slate-900 border border-slate-800 shadow-lg",
-                isLocked && "bg-slate-100 border-slate-200"
-            )}
-        >
-            {/* STATE 1: Link not valid  */}
+                isLocked && "bg-slate-100 border-slate-200",
+            )}>
             {!videoId ? (
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-400">
                     <AlertCircle className="h-10 w-10 mb-2" />
                     <p className="text-sm">Video unavailable</p>
                 </div>
             ) : (
-                /* STATE 2: ACTIVE PLAYER */
                 <>
-                    {/* Loading Spinner (Visible until iframe loads) */}
                     {!isReady && (
                         <div className="absolute inset-0 flex items-center justify-center bg-slate-900 z-10">
                             <Loader2 className="h-8 w-8 animate-spin text-white" />
@@ -55,7 +49,7 @@ export const VideoPlayer = ({
                     <iframe
                         className={cn(
                             "w-full h-full absolute top-0 left-0 transition-opacity duration-500",
-                            isReady ? "opacity-100" : "opacity-0"
+                            isReady ? "opacity-100" : "opacity-0",
                         )}
                         src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&autohide=1&showinfo=0`}
                         title={title || "Video Player"}

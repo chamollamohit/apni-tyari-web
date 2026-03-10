@@ -33,14 +33,15 @@ export async function POST(req: Request) {
                 date: new Date(date),
                 isPublished: true,
                 isFree: false,
+                videoSource: "YOUTUBE"
             },
         });
 
         return NextResponse.json(lesson, { status: 201 });
     } catch (error) {
-        console.log("[LESSON_DELETE]", error);
+        console.log("[LESSON_CREATE]", error);
         return NextResponse.json(
-            { message: "Unable to delete lesson" },
+            { message: "Unable to create lesson" },
             { status: 500 }
         );
     }

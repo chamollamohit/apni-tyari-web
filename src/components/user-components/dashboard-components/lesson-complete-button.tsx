@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useState } from "react";
-import { CheckCircle, XCircle } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
@@ -33,18 +33,17 @@ export const LessonCompleteButton = ({
                 `/api/courses/${courseId}/lessons/${lessonId}/progress`,
                 {
                     isCompleted: !isCompleted,
-                }
+                },
             );
 
-            // If completing and there is a next lesson, ask to go there
             if (!isCompleted && nextLessonId) {
                 toast.success("Lesson completed! Moving to next...");
                 router.push(
-                    `/courses/${courseId}/learn/lessons/${nextLessonId}`
+                    `/courses/${courseId}/learn/lessons/${nextLessonId}`,
                 );
             } else {
                 toast.success(
-                    isCompleted ? "Progress reset" : "Lesson completed"
+                    isCompleted ? "Progress reset" : "Lesson completed",
                 );
                 router.refresh();
             }
@@ -64,9 +63,9 @@ export const LessonCompleteButton = ({
                 "w-full md:w-auto flex items-center gap-x-2",
                 isCompleted &&
                     "text-emerald-700 border-emerald-700 hover:bg-emerald-50",
-                !isCompleted && "bg-emerald-600 hover:bg-emerald-700 text-white"
-            )}
-        >
+                !isCompleted &&
+                    "bg-emerald-600 hover:bg-emerald-700 text-white",
+            )}>
             {isCompleted ? (
                 <>
                     <CheckCircle className="h-4 w-4" />

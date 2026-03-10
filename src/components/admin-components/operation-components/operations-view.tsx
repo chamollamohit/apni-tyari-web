@@ -49,12 +49,11 @@ export const OperationsView = ({
     const [isLoading, setIsLoading] = useState(false);
     const [isAddLessonOpen, setIsAddLessonOpen] = useState(false);
 
-    // Bulk Delete Handler
     const onResetSchedule = async () => {
         try {
             setIsLoading(true);
             await axios.delete(
-                `/api/courses/${courseId}/subjects/${subjectId}/schedule`
+                `/api/courses/${courseId}/subjects/${subjectId}/schedule`,
             );
             toast.success("Schedule reset successfully");
             router.refresh();
@@ -68,7 +67,9 @@ export const OperationsView = ({
 
     return (
         <>
-            <AlertDialog open={isResetOpen} onOpenChange={setIsResetOpen}>
+            <AlertDialog
+                open={isResetOpen}
+                onOpenChange={setIsResetOpen}>
                 <AlertDialogContent className="bg-white">
                     <AlertDialogHeader>
                         <AlertDialogTitle className="flex items-center gap-2 text-red-600">
@@ -92,8 +93,7 @@ export const OperationsView = ({
                                 onResetSchedule();
                             }}
                             disabled={isLoading}
-                            className="bg-red-600 hover:bg-red-700 text-white"
-                        >
+                            className="bg-red-600 hover:bg-red-700 text-white">
                             {isLoading
                                 ? "Deleting..."
                                 : "Yes, Delete Everything"}
@@ -101,14 +101,14 @@ export const OperationsView = ({
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
-            {/* Excel Upload Modal */}
+
             <ExcelUploadModal
                 isOpen={isExcelOpen}
                 onClose={() => setIsExcelOpen(false)}
                 courseId={courseId}
                 subjectId={subjectId}
             />
-            {/* Add Lesson Modal */}
+
             <AddLessonModal
                 isOpen={isAddLessonOpen}
                 onClose={() => setIsAddLessonOpen(false)}
@@ -116,7 +116,6 @@ export const OperationsView = ({
                 teachers={teachers}
             />
             <div className="space-y-6">
-                {/* 1. Action Toolbar */}
                 <div className="flex items-center justify-between bg-white p-4 border rounded-lg shadow-sm">
                     <div>
                         <h2 className="text-lg font-semibold text-slate-900">
@@ -127,7 +126,6 @@ export const OperationsView = ({
                             {scheduleData.length} lessons in view
                         </p>
                     </div>
-                    {/* Date Range */}
                     <DateRangeFilter />
 
                     <div className="flex items-center gap-x-2">
@@ -135,27 +133,22 @@ export const OperationsView = ({
                             <Button
                                 onClick={() => setIsResetOpen(true)}
                                 variant="ghost"
-                                className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                            >
+                                className="text-red-600 hover:text-red-700 hover:bg-red-50">
                                 <Trash2 className="h-4 w-4 mr-2" />
                                 Reset
                             </Button>
                         )}
-                        {/* Excel Upload Button */}
                         <Button
                             onClick={() => setIsExcelOpen(true)}
                             variant="outline"
-                            className="border-slate-300 text-slate-700 hover:bg-slate-50"
-                        >
+                            className="border-slate-300 text-slate-700 hover:bg-slate-50">
                             <Upload className="h-4 w-4 mr-2" />
                             Upload Excel
                         </Button>
 
-                        {/* Add Lesson Button */}
                         <Button
                             onClick={() => setIsAddLessonOpen(true)}
-                            className="bg-black text-white hover:bg-slate-800"
-                        >
+                            className="bg-black text-white hover:bg-slate-800">
                             <Plus className="h-4 w-4 mr-2" />
                             Add Lesson
                         </Button>
@@ -164,7 +157,6 @@ export const OperationsView = ({
 
                 <Separator />
 
-                {/* 2. Content / Schedule List */}
                 <div className="bg-white border rounded-lg min-h-[300px] flex items-center justify-center text-slate-500">
                     <ScheduleList items={scheduleData} />
                 </div>

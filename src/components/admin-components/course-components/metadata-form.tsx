@@ -96,7 +96,9 @@ export const MetadataForm = ({ initialData, courseId }: MetadataFormProps) => {
         <div className="mt-6 border bg-slate-100 rounded-md p-4">
             <div className="font-medium flex items-center justify-between">
                 Course Highlights & Metadata
-                <Button onClick={toggleEdit} variant="ghost">
+                <Button
+                    onClick={toggleEdit}
+                    variant="ghost">
                     {isEditing ? (
                         <>Cancel</>
                     ) : (
@@ -151,10 +153,8 @@ export const MetadataForm = ({ initialData, courseId }: MetadataFormProps) => {
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-4 mt-4"
-                    >
+                        className="space-y-4 mt-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {/* 1. CATEGORY */}
                             <FormField
                                 control={form.control}
                                 name="category"
@@ -163,8 +163,7 @@ export const MetadataForm = ({ initialData, courseId }: MetadataFormProps) => {
                                         <FormLabel>Category</FormLabel>
                                         <Select
                                             onValueChange={field.onChange}
-                                            defaultValue={field.value}
-                                        >
+                                            defaultValue={field.value}>
                                             <FormControl>
                                                 <SelectTrigger className="bg-white">
                                                     <SelectValue placeholder="Select Category" />
@@ -189,7 +188,6 @@ export const MetadataForm = ({ initialData, courseId }: MetadataFormProps) => {
                                 )}
                             />
 
-                            {/* 2. LANGUAGE */}
                             <FormField
                                 control={form.control}
                                 name="courseLanguage"
@@ -198,8 +196,7 @@ export const MetadataForm = ({ initialData, courseId }: MetadataFormProps) => {
                                         <FormLabel>Language</FormLabel>
                                         <Select
                                             onValueChange={field.onChange}
-                                            defaultValue={field.value}
-                                        >
+                                            defaultValue={field.value}>
                                             <FormControl>
                                                 <SelectTrigger className="bg-white">
                                                     <SelectValue placeholder="Select Language" />
@@ -220,8 +217,6 @@ export const MetadataForm = ({ initialData, courseId }: MetadataFormProps) => {
                                     </FormItem>
                                 )}
                             />
-
-                            {/* 3. TARGET AUDIENCE */}
                             <FormField
                                 control={form.control}
                                 name="target"
@@ -230,8 +225,7 @@ export const MetadataForm = ({ initialData, courseId }: MetadataFormProps) => {
                                         <FormLabel>Target Class</FormLabel>
                                         <Select
                                             onValueChange={field.onChange}
-                                            defaultValue={field.value}
-                                        >
+                                            defaultValue={field.value}>
                                             <FormControl>
                                                 <SelectTrigger className="bg-white">
                                                     <SelectValue placeholder="Select Target" />
@@ -256,7 +250,6 @@ export const MetadataForm = ({ initialData, courseId }: MetadataFormProps) => {
                                 )}
                             />
 
-                            {/* 4. DURATION */}
                             <FormField
                                 control={form.control}
                                 name="duration"
@@ -275,7 +268,6 @@ export const MetadataForm = ({ initialData, courseId }: MetadataFormProps) => {
                                 )}
                             />
 
-                            {/* 5. VALIDITY */}
                             <FormField
                                 control={form.control}
                                 name="validity"
@@ -290,13 +282,12 @@ export const MetadataForm = ({ initialData, courseId }: MetadataFormProps) => {
                                                         className={cn(
                                                             "w-full pl-3 text-left font-normal bg-white",
                                                             !field.value &&
-                                                                "text-muted-foreground"
-                                                        )}
-                                                    >
+                                                                "text-muted-foreground",
+                                                        )}>
                                                         {field.value ? (
                                                             format(
                                                                 field.value,
-                                                                "PPP"
+                                                                "PPP",
                                                             )
                                                         ) : (
                                                             <span>
@@ -309,8 +300,7 @@ export const MetadataForm = ({ initialData, courseId }: MetadataFormProps) => {
                                             </PopoverTrigger>
                                             <PopoverContent
                                                 className="w-auto p-0"
-                                                align="start"
-                                            >
+                                                align="start">
                                                 <Calendar
                                                     mode="single"
                                                     selected={field.value}
@@ -322,8 +312,8 @@ export const MetadataForm = ({ initialData, courseId }: MetadataFormProps) => {
                                                                 0,
                                                                 0,
                                                                 0,
-                                                                0
-                                                            )
+                                                                0,
+                                                            ),
                                                         )
                                                     }
                                                     initialFocus
@@ -333,7 +323,7 @@ export const MetadataForm = ({ initialData, courseId }: MetadataFormProps) => {
                                     </FormItem>
                                 )}
                             />
-                            {/* Start Date */}
+
                             <FormField
                                 control={form.control}
                                 name="startDate"
@@ -348,13 +338,12 @@ export const MetadataForm = ({ initialData, courseId }: MetadataFormProps) => {
                                                         className={cn(
                                                             "w-full pl-3 text-left font-normal bg-white",
                                                             !field.value &&
-                                                                "text-muted-foreground"
-                                                        )}
-                                                    >
+                                                                "text-muted-foreground",
+                                                        )}>
                                                         {field.value ? (
                                                             format(
                                                                 field.value,
-                                                                "PPP"
+                                                                "PPP",
                                                             )
                                                         ) : (
                                                             <span>
@@ -367,8 +356,7 @@ export const MetadataForm = ({ initialData, courseId }: MetadataFormProps) => {
                                             </PopoverTrigger>
                                             <PopoverContent
                                                 className="w-auto p-0"
-                                                align="start"
-                                            >
+                                                align="start">
                                                 <Calendar
                                                     mode="single"
                                                     selected={field.value}
@@ -388,8 +376,7 @@ export const MetadataForm = ({ initialData, courseId }: MetadataFormProps) => {
 
                         <Button
                             disabled={!isValid || isSubmitting}
-                            type="submit"
-                        >
+                            type="submit">
                             Save Details
                         </Button>
                     </form>

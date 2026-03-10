@@ -27,7 +27,7 @@ export const SearchInput = () => {
                     title: debouncedValue,
                 },
             },
-            { skipEmptyString: true, skipNull: true }
+            { skipEmptyString: true, skipNull: true },
         );
 
         router.push(url);
@@ -39,7 +39,7 @@ export const SearchInput = () => {
             <Input
                 onChange={(e) => setSearchValue(e.target.value)}
                 value={searchValue}
-                className="w-full md:w-[300px] pl-9 rounded-full bg-slate-100 border-none focus-visible:ring-slate-200"
+                className="w-full md:w-75 pl-9 rounded-full bg-slate-100 border-none focus-visible:ring-slate-200"
                 placeholder="Search for a course..."
             />
         </div>

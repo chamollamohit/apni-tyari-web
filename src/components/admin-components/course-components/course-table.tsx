@@ -42,8 +42,7 @@ export const CourseTable = ({ courses }: CourseTableProps) => {
                         <TableRow>
                             <TableCell
                                 colSpan={4}
-                                className="text-center h-24 text-muted-foreground"
-                            >
+                                className="text-center h-24 text-muted-foreground">
                                 No courses found.
                             </TableCell>
                         </TableRow>
@@ -51,12 +50,10 @@ export const CourseTable = ({ courses }: CourseTableProps) => {
 
                     {courses.map((course) => (
                         <TableRow key={course.id}>
-                            {/* 1. Title */}
                             <TableCell className="font-medium">
                                 {course.title}
                             </TableCell>
 
-                            {/* 2. Price (Formatted) */}
                             <TableCell>
                                 {course.price
                                     ? new Intl.NumberFormat("en-IN", {
@@ -66,27 +63,23 @@ export const CourseTable = ({ courses }: CourseTableProps) => {
                                     : "-"}
                             </TableCell>
 
-                            {/* 3. Status Badge */}
                             <TableCell>
                                 <Badge
                                     variant={
                                         course.isPublished
                                             ? "default"
                                             : "secondary"
-                                    }
-                                >
+                                    }>
                                     {course.isPublished ? "Published" : "Draft"}
                                 </Badge>
                             </TableCell>
 
-                            {/* 4. Actions Dropdown */}
                             <TableCell className="text-right">
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
                                         <Button
                                             variant="ghost"
-                                            className="h-8 w-8 p-0"
-                                        >
+                                            className="h-8 w-8 p-0">
                                             <span className="sr-only">
                                                 Open menu
                                             </span>
@@ -95,8 +88,7 @@ export const CourseTable = ({ courses }: CourseTableProps) => {
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent align="end">
                                         <Link
-                                            href={`/admin/courses/${course.id}`}
-                                        >
+                                            href={`/admin/courses/${course.id}`}>
                                             <DropdownMenuItem>
                                                 <Pencil className="mr-2 h-4 w-4" />
                                                 Edit

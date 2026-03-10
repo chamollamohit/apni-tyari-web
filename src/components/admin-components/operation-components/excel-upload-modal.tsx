@@ -108,7 +108,7 @@ export const ExcelUploadModal = ({
                 !firstRow.TeacherEmail
             ) {
                 toast.error(
-                    "Invalid format of first Row. Please download the template."
+                    "Invalid format of first Row. Please download the template.",
                 );
                 return;
             }
@@ -124,7 +124,7 @@ export const ExcelUploadModal = ({
             }
 
             const uniqueChapters = new Set(
-                rawJson.map((row) => row.Chapter).filter(Boolean)
+                rawJson.map((row) => row.Chapter).filter(Boolean),
             );
             setStats({
                 chapters: uniqueChapters.size,
@@ -145,7 +145,7 @@ export const ExcelUploadModal = ({
                 `/api/courses/${courseId}/subjects/${subjectId}/import`,
                 {
                     data: parsedData,
-                }
+                },
             );
 
             toast.success(`Successfully imported ${stats?.lessons} lessons`);
@@ -168,7 +168,9 @@ export const ExcelUploadModal = ({
     };
 
     return (
-        <Dialog open={isOpen} onOpenChange={onClose}>
+        <Dialog
+            open={isOpen}
+            onOpenChange={onClose}>
             <DialogContent className="bg-white sm:max-w-md">
                 <DialogHeader>
                     <DialogTitle>Bulk Schedule Upload</DialogTitle>
@@ -184,8 +186,7 @@ export const ExcelUploadModal = ({
                             onClick={onDownloadTemplate}
                             variant="ghost"
                             size="sm"
-                            className="text-xs h-8"
-                        >
+                            className="text-xs h-8">
                             <Download className="h-3 w-3 mr-2" />
                             Download Template
                         </Button>
@@ -193,10 +194,6 @@ export const ExcelUploadModal = ({
 
                     {!stats ? (
                         <div className="border-2 border-dashed border-slate-200 rounded-lg p-8 flex flex-col items-center justify-center text-center hover:bg-slate-50 transition cursor-pointer relative bg-slate-50/50">
-                            {/* <Upload className="h-8 w-8 text-slate-400 mb-2" /> */}
-                            {/* <p className="text-sm font-medium text-slate-900">
-                                Click to browse file
-                            </p> */}
                             <Input
                                 type="file"
                                 accept=".xlsx, .xls"
@@ -243,15 +240,13 @@ export const ExcelUploadModal = ({
                     <Button
                         variant="outline"
                         onClick={onClose}
-                        disabled={isLoading}
-                    >
+                        disabled={isLoading}>
                         Cancel
                     </Button>
                     <Button
                         onClick={onUpload}
                         disabled={!stats || isLoading}
-                        className="bg-black text-white hover:bg-slate-800"
-                    >
+                        className="bg-black text-white hover:bg-slate-800">
                         {isLoading ? "Generating..." : "Generate Schedule"}
                     </Button>
                 </DialogFooter>

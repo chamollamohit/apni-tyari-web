@@ -48,8 +48,7 @@ export const Navbar = () => {
                         {/* Logo */}
                         <Link
                             href="/"
-                            className="flex items-center gap-2 group"
-                        >
+                            className="flex items-center gap-2 group">
                             <div className="hidden md:block relative h-15 w-50">
                                 <Image
                                     src="/logo.png"
@@ -67,8 +66,6 @@ export const Navbar = () => {
                                 />
                             </div>
                         </Link>
-
-                        {/* Desktop Navigation Links */}
                         <div className="hidden md:flex items-center gap-6">
                             {routes.map((route) => {
                                 if (route.protected && !user) return null;
@@ -82,9 +79,8 @@ export const Navbar = () => {
                                             "text-sm font-medium transition-colors hover:text-black",
                                             isActive
                                                 ? "text-black"
-                                                : "text-slate-500"
-                                        )}
-                                    >
+                                                : "text-slate-500",
+                                        )}>
                                         {route.label}
                                     </Link>
                                 );
@@ -99,8 +95,7 @@ export const Navbar = () => {
                             className="md:hidden text-slate-500"
                             onClick={() =>
                                 setIsMobileMenuOpen(!isMobileMenuOpen)
-                            }
-                        >
+                            }>
                             {isMobileMenuOpen ? <X /> : <Menu />}
                         </button>
 
@@ -111,8 +106,7 @@ export const Navbar = () => {
                                     <Link href="/login">
                                         <Button
                                             variant="ghost"
-                                            className="text-slate-600"
-                                        >
+                                            className="text-slate-600">
                                             Log in
                                         </Button>
                                     </Link>
@@ -130,8 +124,7 @@ export const Navbar = () => {
                                             <Button
                                                 variant="outline"
                                                 size="sm"
-                                                className="border-slate-300"
-                                            >
+                                                className="border-slate-300">
                                                 Admin Mode
                                             </Button>
                                         </Link>
@@ -152,8 +145,7 @@ export const Navbar = () => {
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent
                                             align="end"
-                                            className="w-56 mt-2"
-                                        >
+                                            className="w-56 mt-2">
                                             <DropdownMenuLabel>
                                                 <p className="font-normal text-xs text-slate-500">
                                                     Signed in as
@@ -176,8 +168,7 @@ export const Navbar = () => {
                                                         callbackUrl: "/",
                                                     })
                                                 }
-                                                className="text-red-600 focus:text-red-600 cursor-pointer focus:bg-red-50"
-                                            >
+                                                className="text-red-600 focus:text-red-600 cursor-pointer focus:bg-red-50">
                                                 <LogOut className="h-4 w-4 mr-2" />
                                                 Log out
                                             </DropdownMenuItem>
@@ -222,8 +213,7 @@ export const Navbar = () => {
                                     key={route.href}
                                     href={route.href}
                                     onClick={() => setIsMobileMenuOpen(false)}
-                                    className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-slate-600 rounded-md"
-                                >
+                                    className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-slate-600 rounded-md">
                                     {route.label === "Browse" && (
                                         <BookOpen className="h-4 w-4" />
                                     )}
@@ -240,8 +230,7 @@ export const Navbar = () => {
                             <Link
                                 href="/admin/dashboard"
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-slate-600 rounded-md mt-2"
-                            >
+                                className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-slate-600 rounded-md mt-2">
                                 <GraduationCap className="h-4 w-4" />
                                 Admin Dashboard
                             </Link>
@@ -256,8 +245,7 @@ export const Navbar = () => {
                                     onClick={() =>
                                         signOut({ callbackUrl: "/" })
                                     }
-                                    className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-md text-left"
-                                >
+                                    className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-md text-left">
                                     <LogOut className="h-4 w-4" /> Log out
                                 </button>
                             </>
@@ -265,19 +253,16 @@ export const Navbar = () => {
                             <div className="grid grid-cols-2 gap-2 mt-4 p-2">
                                 <Link
                                     href="/login"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
+                                    onClick={() => setIsMobileMenuOpen(false)}>
                                     <Button
                                         variant="outline"
-                                        className="w-full"
-                                    >
+                                        className="w-full">
                                         Log in
                                     </Button>
                                 </Link>
                                 <Link
                                     href="/register"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
+                                    onClick={() => setIsMobileMenuOpen(false)}>
                                     <Button className="w-full bg-black text-white">
                                         Sign up
                                     </Button>

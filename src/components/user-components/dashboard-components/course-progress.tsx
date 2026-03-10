@@ -29,18 +29,16 @@ export const CourseProgress = ({
             <Progress
                 className="h-2 bg-slate-200"
                 value={value}
-                // You might need to customize Progress color in global css or use utility classes
                 indicatorClassName={cn(
-                    variant === "success" ? "bg-green-600" : "bg-slate-900"
+                    variant === "success" ? "bg-green-600" : "bg-slate-900",
                 )}
             />
             <p
                 className={cn(
                     "font-medium mt-2 text-slate-500",
                     colorByVariant[variant || "default"],
-                    sizeByVariant[size || "default"]
-                )}
-            >
+                    sizeByVariant[size || "default"],
+                )}>
                 {Math.round(value)}% Complete
             </p>
         </div>

@@ -28,7 +28,6 @@ interface EditorProps {
     value: string;
 }
 
-// 1. Helper Component to reduce repetition
 const ToolbarToggle = ({
     pressed,
     onPressedChange,
@@ -48,8 +47,7 @@ const ToolbarToggle = ({
                     pressed={pressed}
                     onPressedChange={onPressedChange}
                     aria-label={label}
-                    className="data-[state=on]:bg-slate-200 data-[state=on]:text-slate-900"
-                >
+                    className="data-[state=on]:bg-slate-200 data-[state=on]:text-slate-900">
                     <Icon className="h-4 w-4" />
                 </Toggle>
             </TooltipTrigger>

@@ -12,20 +12,18 @@ interface CourseCardProps {
 }
 
 export const CourseCard = ({ course }: CourseCardProps) => {
-    // Calculate Discount %
     const discount =
         course.originalPrice && course.price
             ? Math.round(
                   ((course.originalPrice - course.price) /
                       course.originalPrice) *
-                      100
+                      100,
               )
             : 0;
 
     return (
         <Link href={`/courses/${course.id}`}>
             <div className="group hover:shadow-md transition overflow-hidden border rounded-lg h-full flex flex-col bg-white">
-                {/* Image Container */}
                 <div className="relative w-full aspect-video rounded-t-md overflow-hidden bg-slate-100">
                     {course.imageUrl ? (
                         <Image
@@ -41,13 +39,11 @@ export const CourseCard = ({ course }: CourseCardProps) => {
                     )}
                 </div>
 
-                {/* Content */}
                 <div className="flex flex-col p-4 flex-1">
                     <div className="flex items-center justify-between mb-2">
                         <Badge
                             variant="outline"
-                            className="text-[10px] uppercase font-bold text-slate-500 border-slate-200"
-                        >
+                            className="text-[10px] uppercase font-bold text-slate-500 border-slate-200">
                             {course.category || "General"}
                         </Badge>
                         {discount > 0 && (
@@ -67,7 +63,6 @@ export const CourseCard = ({ course }: CourseCardProps) => {
                             : "All Students"}
                     </p>
 
-                    {/* Pricing Footer */}
                     <div className="mt-auto flex items-center gap-x-2">
                         {course.price ? (
                             <>

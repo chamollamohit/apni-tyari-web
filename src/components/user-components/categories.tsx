@@ -1,13 +1,7 @@
 "use client";
 
 import { CourseCategory } from "@prisma/client";
-import {
-    Microscope, // For NEET (Biology)
-    Atom, // For JEE (Physics/Science)
-    Globe, // For UPSC (General Knowledge)
-    BookOpen, // For Foundation
-    Lightbulb, // Fallback
-} from "lucide-react";
+import { Microscope, Atom, Globe, BookOpen, Lightbulb } from "lucide-react";
 import { LucideIcon } from "lucide-react";
 
 import { CategoryItem } from "./category-item";

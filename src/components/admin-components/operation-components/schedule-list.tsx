@@ -41,7 +41,7 @@ export const ScheduleList = ({ items }: ScheduleListProps) => {
     const router = useRouter();
 
     const [editingLesson, setEditingLesson] = useState<ScheduleItem | null>(
-        null
+        null,
     );
     const [editType, setEditType] = useState<"video" | "notes">("video");
 
@@ -50,7 +50,6 @@ export const ScheduleList = ({ items }: ScheduleListProps) => {
         setEditType(type);
     };
 
-    // Delete Handler
     const onDelete = async (id: string) => {
         try {
             await axios.delete(`/api/lessons/${id}`);
@@ -59,7 +58,7 @@ export const ScheduleList = ({ items }: ScheduleListProps) => {
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 toast.error(
-                    error.response?.data?.message || "Unable to Delete Lesson"
+                    error.response?.data?.message || "Unable to Delete Lesson",
                 );
             } else {
                 toast.error("Something went wrong");
@@ -67,21 +66,21 @@ export const ScheduleList = ({ items }: ScheduleListProps) => {
         }
     };
 
-    // Group Lessons by Date Key (YYYY-MM-DD)
-    const grouped = items.reduce((acc, lesson) => {
-        const dateKey = format(new Date(lesson.date!), "yyyy-MM-dd");
+    const grouped = items.reduce(
+        (acc, lesson) => {
+            const dateKey = format(new Date(lesson.date!), "yyyy-MM-dd");
 
-        if (!acc[dateKey]) acc[dateKey] = [];
-        acc[dateKey].push(lesson);
-        return acc;
-    }, {} as Record<string, typeof items>);
+            if (!acc[dateKey]) acc[dateKey] = [];
+            acc[dateKey].push(lesson);
+            return acc;
+        },
+        {} as Record<string, typeof items>,
+    );
 
-    // Sort Keys by Date
     const sortedDates = Object.keys(grouped).sort((a, b) => {
         return new Date(a).getTime() - new Date(b).getTime();
     });
 
-    // Empty State
     if (items.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center py-16 px-2 text-slate-500 bg-slate-50 border border-slate-200 border-dashed rounded-lg">
@@ -104,6 +103,7 @@ export const ScheduleList = ({ items }: ScheduleListProps) => {
                     initialData={{
                         videoUrl: editingLesson.videoUrl,
                         notesUrl: editingLesson.notesUrl,
+                        videoSource: editingLesson.videoSource,
                     }}
                     type={editType}
                 />
@@ -113,16 +113,15 @@ export const ScheduleList = ({ items }: ScheduleListProps) => {
                     const lessons = grouped[dateKey];
                     const dateObj = new Date(dateKey);
 
-                    // Header
-
                     let headerText = format(dateObj, "EEEE, d MMMM yyyy");
                     if (isToday(dateObj)) headerText = "Today • " + headerText;
                     if (isTomorrow(dateObj))
                         headerText = "Tomorrow • " + headerText;
 
                     return (
-                        <div key={dateKey} className="space-y-3">
-                            {/* Date Header Strip */}
+                        <div
+                            key={dateKey}
+                            className="space-y-3">
                             <div className="flex items-center gap-x-3 sticky top-0 bg-gray-50/95 backdrop-blur-sm py-2 z-10">
                                 <div
                                     className={
@@ -138,33 +137,29 @@ export const ScheduleList = ({ items }: ScheduleListProps) => {
                                 </span>
                             </div>
 
-                            {/* List of Lesson Cards */}
                             <div className="grid grid-cols-1 gap-3">
                                 {lessons.map((lesson) => (
                                     <div
                                         key={lesson.id}
-                                        className="group bg-white border border-slate-200 rounded-lg p-4 flex items-center justify-between shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200"
-                                    >
-                                        {/* LEFT: Time & Metadata */}
+                                        className="group bg-white border border-slate-200 rounded-lg p-4 flex items-center justify-between shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200">
                                         <div className="flex items-center gap-x-4">
-                                            {/* Time Box */}
                                             <div className="flex flex-col items-center justify-center w-16 h-14 bg-slate-50 rounded-md border border-slate-100 group-hover:bg-slate-100 transition">
                                                 {lesson.date ? (
                                                     <>
                                                         <span className="text-sm font-bold text-slate-900">
                                                             {format(
                                                                 new Date(
-                                                                    lesson.date
+                                                                    lesson.date,
                                                                 ),
-                                                                "HH:mm"
+                                                                "HH:mm",
                                                             )}
                                                         </span>
                                                         <span className="text-[10px] text-slate-500 uppercase">
                                                             {format(
                                                                 new Date(
-                                                                    lesson.date
+                                                                    lesson.date,
                                                                 ),
-                                                                "a"
+                                                                "a",
                                                             )}
                                                         </span>
                                                     </>
@@ -175,7 +170,6 @@ export const ScheduleList = ({ items }: ScheduleListProps) => {
                                                 )}
                                             </div>
 
-                                            {/* Title & Faculty */}
                                             <div className="flex flex-col">
                                                 <h4 className="font-semibold text-slate-900 text-sm md:text-base">
                                                     {lesson.title}
@@ -183,8 +177,7 @@ export const ScheduleList = ({ items }: ScheduleListProps) => {
                                                 <div className="flex items-center gap-x-2 text-xs text-slate-500 mt-1.5">
                                                     <Badge
                                                         variant="secondary"
-                                                        className="font-normal bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-100"
-                                                    >
+                                                        className="font-normal bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-100">
                                                         {lesson.chapter.title}
                                                     </Badge>
                                                     <span>•</span>
@@ -196,11 +189,8 @@ export const ScheduleList = ({ items }: ScheduleListProps) => {
                                             </div>
                                         </div>
 
-                                        {/* RIGHT: Status & Actions */}
                                         <div className="flex items-center gap-x-4 md:gap-x-8">
-                                            {/* Status Indicators (Visible on Desktop) */}
                                             <div className="hidden md:flex items-center gap-x-6">
-                                                {/* Video Indicator */}
                                                 <div className="flex flex-col items-center gap-1 w-10">
                                                     {lesson.videoUrl ? (
                                                         <CheckCircle2 className="h-4 w-4 text-green-600" />
@@ -212,7 +202,6 @@ export const ScheduleList = ({ items }: ScheduleListProps) => {
                                                     </span>
                                                 </div>
 
-                                                {/* Notes Indicator */}
                                                 <div className="flex flex-col items-center gap-1 w-10">
                                                     {lesson.notesUrl ? (
                                                         <CheckCircle2 className="h-4 w-4 text-green-600" />
@@ -225,30 +214,26 @@ export const ScheduleList = ({ items }: ScheduleListProps) => {
                                                 </div>
                                             </div>
 
-                                            {/* Action Dropdown */}
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
                                                     <Button
                                                         variant="ghost"
                                                         size="sm"
-                                                        className="h-8 w-8 p-0 text-slate-500 hover:text-slate-900"
-                                                    >
+                                                        className="h-8 w-8 p-0 text-slate-500 hover:text-slate-900">
                                                         <MoreVertical className="h-4 w-4" />
                                                     </Button>
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent
                                                     align="end"
-                                                    className="w-40"
-                                                >
+                                                    className="w-40">
                                                     <DropdownMenuItem
                                                         className="cursor-pointer"
                                                         onClick={() =>
                                                             onOpenEdit(
                                                                 lesson,
-                                                                "video"
+                                                                "video",
                                                             )
-                                                        }
-                                                    >
+                                                        }>
                                                         <Video className="mr-2 h-4 w-4" />
                                                         {lesson.videoUrl
                                                             ? "Edit Video"
@@ -259,10 +244,9 @@ export const ScheduleList = ({ items }: ScheduleListProps) => {
                                                         onClick={() =>
                                                             onOpenEdit(
                                                                 lesson,
-                                                                "notes"
+                                                                "notes",
                                                             )
-                                                        }
-                                                    >
+                                                        }>
                                                         <FileText className="mr-2 h-4 w-4" />
                                                         {lesson.notesUrl
                                                             ? "Edit Notes"
@@ -272,8 +256,7 @@ export const ScheduleList = ({ items }: ScheduleListProps) => {
                                                         onClick={() =>
                                                             onDelete(lesson.id)
                                                         }
-                                                        className="text-red-600 focus:text-red-600 focus:bg-red-50 cursor-pointer"
-                                                    >
+                                                        className="text-red-600 focus:text-red-600 focus:bg-red-50 cursor-pointer">
                                                         <Trash2 className="mr-2 h-4 w-4" />
                                                         Delete
                                                     </DropdownMenuItem>

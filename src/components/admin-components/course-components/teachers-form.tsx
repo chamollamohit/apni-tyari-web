@@ -63,11 +63,6 @@ export const TeachersForm = ({
 
     const { isSubmitting, isValid } = form.formState;
 
-    const teacherIds = useWatch({
-        control: form.control,
-        name: "teacherIds",
-    });
-
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             await axios.patch(`/api/courses/${courseId}`, values);
@@ -89,7 +84,9 @@ export const TeachersForm = ({
         <div className="mt-6 border bg-slate-100 rounded-md p-4">
             <div className="font-medium flex items-center justify-between">
                 Course Faculty
-                <Button onClick={toggleEdit} variant="ghost">
+                <Button
+                    onClick={toggleEdit}
+                    variant="ghost">
                     {isEditing ? (
                         <>Cancel</>
                     ) : (
@@ -111,8 +108,7 @@ export const TeachersForm = ({
                     {initialData.teachers.map((teacher) => (
                         <div
                             key={teacher.id}
-                            className="flex items-center gap-x-2 bg-sky-100 border border-sky-200 text-sky-700 rounded-md px-2 py-1 text-sm font-medium"
-                        >
+                            className="flex items-center gap-x-2 bg-sky-100 border border-sky-200 text-sky-700 rounded-md px-2 py-1 text-sm font-medium">
                             <GraduationCap className="h-4 w-4" />
                             {teacher.name}
                         </div>
@@ -124,8 +120,7 @@ export const TeachersForm = ({
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-4 mt-4"
-                    >
+                        className="space-y-4 mt-4">
                         <FormField
                             control={form.control}
                             name="teacherIds"
@@ -138,8 +133,8 @@ export const TeachersForm = ({
                                                     {options
                                                         .filter((opt) =>
                                                             field.value.includes(
-                                                                opt.teacherId
-                                                            )
+                                                                opt.teacherId,
+                                                            ),
                                                         )
                                                         .map((opt) => (
                                                             <Badge
@@ -147,8 +142,7 @@ export const TeachersForm = ({
                                                                     opt.teacherId
                                                                 }
                                                                 variant="secondary"
-                                                                className="px-2 py-1"
-                                                            >
+                                                                className="px-2 py-1">
                                                                 {
                                                                     opt.teacherName
                                                                 }
@@ -159,16 +153,15 @@ export const TeachersForm = ({
                                                                         const newValue =
                                                                             field.value.filter(
                                                                                 (
-                                                                                    id
+                                                                                    id,
                                                                                 ) =>
                                                                                     id !==
-                                                                                    opt.teacherId
+                                                                                    opt.teacherId,
                                                                             );
                                                                         field.onChange(
-                                                                            newValue
+                                                                            newValue,
                                                                         );
-                                                                    }}
-                                                                >
+                                                                    }}>
                                                                     x
                                                                 </button>
                                                             </Badge>
@@ -184,9 +177,8 @@ export const TeachersForm = ({
                                                         className={cn(
                                                             "w-full justify-between bg-white",
                                                             !field.value &&
-                                                                "text-muted-foreground"
-                                                        )}
-                                                    >
+                                                                "text-muted-foreground",
+                                                        )}>
                                                         Select teachers...
                                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                                     </Button>
@@ -202,7 +194,7 @@ export const TeachersForm = ({
                                                             <CommandGroup>
                                                                 {options.map(
                                                                     (
-                                                                        option
+                                                                        option,
                                                                     ) => (
                                                                         <CommandItem
                                                                             value={
@@ -216,18 +208,18 @@ export const TeachersForm = ({
                                                                                     field.value;
                                                                                 if (
                                                                                     currentIds.includes(
-                                                                                        option.teacherId
+                                                                                        option.teacherId,
                                                                                     )
                                                                                 ) {
                                                                                     // Teacher Exist so remove it
                                                                                     field.onChange(
                                                                                         currentIds.filter(
                                                                                             (
-                                                                                                id
+                                                                                                id,
                                                                                             ) =>
                                                                                                 id !==
-                                                                                                option.teacherId
-                                                                                        )
+                                                                                                option.teacherId,
+                                                                                        ),
                                                                                     );
                                                                                 } else {
                                                                                     // Teacher not exist so add it
@@ -235,26 +227,25 @@ export const TeachersForm = ({
                                                                                         [
                                                                                             ...currentIds,
                                                                                             option.teacherId,
-                                                                                        ]
+                                                                                        ],
                                                                                     );
                                                                                 }
-                                                                            }}
-                                                                        >
+                                                                            }}>
                                                                             <Check
                                                                                 className={cn(
                                                                                     "mr-2 h-4 w-4",
                                                                                     field.value.includes(
-                                                                                        option.teacherId
+                                                                                        option.teacherId,
                                                                                     )
                                                                                         ? "opacity-100"
-                                                                                        : "opacity-0"
+                                                                                        : "opacity-0",
                                                                                 )}
                                                                             />
                                                                             {
                                                                                 option.teacherName
                                                                             }
                                                                         </CommandItem>
-                                                                    )
+                                                                    ),
                                                                 )}
                                                             </CommandGroup>
                                                         </CommandList>
@@ -269,8 +260,7 @@ export const TeachersForm = ({
                         />
                         <Button
                             disabled={!isValid || isSubmitting}
-                            type="submit"
-                        >
+                            type="submit">
                             Save
                         </Button>
                     </form>
