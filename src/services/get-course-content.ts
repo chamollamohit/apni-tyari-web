@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
-import { Lesson, Chapter, Subject, UserProgress } from "@prisma/client";
+import { Lesson, Chapter, Subject, UserProgress, Course } from "@prisma/client";
 
-type CourseContent = {
+type CourseContent = Course & {
     subjects: (Subject & {
         chapters: (Chapter & {
             lessons: (Lesson & {
@@ -9,6 +9,7 @@ type CourseContent = {
             })[];
         })[];
     })[];
+
 };
 
 export const getCourseContent = async (courseId: string, userId: string): Promise<CourseContent | null> => {

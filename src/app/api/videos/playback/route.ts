@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
             url: `${process.env.CLOUDFRONT_DOMAIN}/${s3Key}`,
             keyPairId: process.env.CLOUDFRONT_PUBLIC_KEY_ID!,
             privateKey: privateKey,
-            dateLessThan: new Date(Date.now() + 1000 * 60 * 5).toISOString(),
+            dateLessThan: new Date(Date.now() + 1000 * 60 * 2).toISOString(),
         })
 
         return NextResponse.json({ url: signedUrl })
