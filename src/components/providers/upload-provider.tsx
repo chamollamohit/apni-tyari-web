@@ -1,6 +1,6 @@
 "use client";
 import React, { createContext, useState } from "react";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 
 interface UploadContextType {
     uploading: boolean;
@@ -19,13 +19,15 @@ export const UploadProvider = ({ children }: { children: React.ReactNode }) => {
     const [fileName, setFileName] = useState("");
 
     const startUpload = async (file: File) => {
+        let currentVideoId = null;
         try {
             setUploading(true);
             setFileName(file.name);
             setProgress(0);
 
             const res = await fetch("/api/videos/upload", { method: "POST" });
-            const { url, fields } = await res.json();
+            const { url, fields, videoId } = await res.json();
+            currentVideoId = videoId;
 
             const formData = new FormData();
             Object.entries(fields).forEach(([key, value]) => {
@@ -46,7 +48,15 @@ export const UploadProvider = ({ children }: { children: React.ReactNode }) => {
 
             alert("Upload successful!");
         } catch (err) {
-            console.error(err);
+            if (isAxiosError(err)) {
+                console.error(err.response?.data);
+            }
+            if (currentVideoId) {
+                await axios.patch("/api/videos", {
+                    id: currentVideoId,
+                    status: "FAILED",
+                });
+            }
             alert("Upload failed.");
         } finally {
             setUploading(false);

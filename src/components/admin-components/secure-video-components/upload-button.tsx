@@ -48,6 +48,9 @@ export default function UploadVideo() {
                     </>
                 )}
             </button>
+            <p className="text-xs text-center mt-1">
+                Video Upload Limit: 50 MB
+            </p>
         </>
     );
 }

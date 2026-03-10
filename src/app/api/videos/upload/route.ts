@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
             Expires: 120
         })
 
-        return NextResponse.json({ fields, url }, { status: 200 })
+        return NextResponse.json({ fields, url, videoId: video.id }, { status: 200 })
     } catch (error) {
         console.error("[AWS_SIGN_URL_ERROR]", error);
         return new NextResponse("Internal Error", { status: 500 });
